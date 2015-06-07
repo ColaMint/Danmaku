@@ -103,6 +103,7 @@ public class DanmakuFrame extends JFrame {
 	private void initDanmakuBoard() {
 		danmakuBoard = new DanmakuBoard(stateManager);
 		danmakuBoard.show();
+		danmakuBoard.toFront();
 	}
 
 	private void initComponent() {
