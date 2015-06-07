@@ -1,9 +1,2 @@
 /danmaku-java-client/bin/
-/danmaku-native/Win32Project1/Release/
-/danmaku-native/Win32Project1/Debug/
-/danmaku-native/Win32Project1/x64/Release/
-/danmaku-native/Win32Project1/x64/Debug/
-/danmaku-native/Win32Project1/Win32Project1/x64/Release/
-/danmaku-native/Win32Project1/Win32Project1/x64/Debug/
-/danmaku-native/Win32Project1/Win32Project1/Release/
-/danmaku-native/Win32Project1/Win32Project1/Debug/
+/danmaku-native-vs-project/
