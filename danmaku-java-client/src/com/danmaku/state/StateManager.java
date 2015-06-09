@@ -1,14 +1,13 @@
-package DanmakuState;
+package com.danmaku.state;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 
-public class StateManager {
+import com.danmaku.common.Lockable;
+
+public class StateManager extends Lockable {
 
 	private List<OnStateChangedListener> listeners;
-
-	private Semaphore stateSem;
 
 	public static enum State {
 		STATE_STOP, STATE_RUNNING, STATE_PAUSE
@@ -19,7 +18,6 @@ public class StateManager {
 	public StateManager() {
 		listeners = new ArrayList<OnStateChangedListener>();
 		this.state = State.STATE_STOP;
-		stateSem = new Semaphore(1);
 	}
 
 	public State getState() {
@@ -34,14 +32,6 @@ public class StateManager {
 		State oldState = this.state;
 		this.state = newState;
 		notifyListeners(oldState, newState);
-	}
-
-	public void lockState() throws InterruptedException {
-		stateSem.acquire();
-	}
-
-	public void unlockState() {
-		stateSem.release();
 	}
 
 	public void addOnStateChangedListener(OnStateChangedListener l) {

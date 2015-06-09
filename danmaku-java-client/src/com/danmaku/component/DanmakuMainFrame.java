@@ -1,4 +1,4 @@
-package DanmakuComponent;
+package com.danmaku.component;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -13,19 +13,21 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import DanmakuConf.DanmakuConfManager;
-import DanmakuState.StateManager;
-import DanmakuState.StateManager.OnStateChangedListener;
-import DanmakuState.StateManager.State;
+import com.danmaku.api.ApiConstant;
+import com.danmaku.conf.ConfManager;
+import com.danmaku.conf.DanmakuConfManager;
+import com.danmaku.state.StateManager;
+import com.danmaku.state.StateManager.OnStateChangedListener;
+import com.danmaku.state.StateManager.State;
 
-public class DanmakuFrame extends JFrame {
+public class DanmakuMainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
 	/* Frame Params */
 	private final String DANMAKU_FRAME_TITLE = "Danmaku";
 	private final int DANMAKU_FRAME_WIDTH = 250;
-	private final int DANMAKU_FRAME_HEIGHT = 150;
+	private final int DANMAKU_FRAME_HEIGHT = 180;
 
 	/* Frame Component */
 	private JLabel labelHost;
@@ -42,7 +44,7 @@ public class DanmakuFrame extends JFrame {
 	/* DanmakuBoard */
 	private DanmakuBoard danmakuBoard;
 
-	public DanmakuFrame() {
+	public DanmakuMainFrame() {
 		initFrameParams();
 		initStateManager();
 		initDanmakuBoard();
@@ -107,7 +109,7 @@ public class DanmakuFrame extends JFrame {
 	}
 
 	private void initComponent() {
-		DanmakuConfManager conf = DanmakuConfManager.getInstance();
+		ConfManager conf = DanmakuConfManager.getInstance();
 
 		/* init labelHost */
 		labelHost = new JLabel();
@@ -181,6 +183,7 @@ public class DanmakuFrame extends JFrame {
 	}
 
 	private void onStartBtnClicked() {
+		ApiConstant.setServer(textHost.getText().trim(), textPort.getText().trim());
 		stateManager.setState(State.STATE_RUNNING);
 	}
 

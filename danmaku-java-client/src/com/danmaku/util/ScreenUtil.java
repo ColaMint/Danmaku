@@ -1,4 +1,4 @@
-package DanmakuUtil;
+package com.danmaku.util;
 
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
@@ -16,17 +16,17 @@ public class ScreenUtil {
 				.getLocalGraphicsEnvironment();
 		Rectangle maximumWindowBounds = graphicsEnvironment
 				.getMaximumWindowBounds();
-
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 		screenWidth = maximumWindowBounds.width;
 		screenHeight = screenSize.height;
 		screenHeightWitoutTaskbar = maximumWindowBounds.height;
 		taskbarHeight = screenHeight - screenHeightWitoutTaskbar;
-		System.out.println(screenWidth);
-		System.out.println(screenHeight);
-		System.out.println(screenHeightWitoutTaskbar);
-		System.out.println(taskbarHeight);
+
+		LogUtil.printVar("ScreenWidth", screenWidth);
+		LogUtil.printVar("screenHeight", screenHeight);
+		LogUtil.printVar("screenHeightWitoutTaskbar", screenHeightWitoutTaskbar);
+		LogUtil.printVar("TaskbarHeight", taskbarHeight);
 	}
 
 	public static int getScreenWidth() {

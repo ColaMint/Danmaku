@@ -1,4 +1,4 @@
-package DanmakuConf;
+package com.danmaku.conf;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,10 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-public class DanmakuConfManager {
+import com.danmaku.util.LogUtil;
+
+public class DanmakuConfManager implements ConfManager {
 	private static DanmakuConfManager instance;
 
-	private final String propertyFilePath = "danmaku.properties";
+	private final String PROPERTY_FILE_PATH = "danmaku.properties";
 	private Map<String, String> props;
 
 	public synchronized static DanmakuConfManager getInstance() {
@@ -29,19 +31,19 @@ public class DanmakuConfManager {
 	@SuppressWarnings("unchecked")
 	public void loadProperties() {
 		try {
-			InputStream in = new FileInputStream(new File(propertyFilePath));
+			InputStream in = new FileInputStream(new File(PROPERTY_FILE_PATH));
 			Properties pps = new Properties();
 			pps.load(in);
 			Enumeration<String> enum1 = (Enumeration<String>) pps
 					.propertyNames();
-			System.out.println("==loading danmaku.properties==");
+			LogUtil.printMessage("== Loading danmaku.properties ==");
 			while (enum1.hasMoreElements()) {
 				String strKey = enum1.nextElement();
 				String strValue = pps.getProperty(strKey);
 				props.put(strKey, strValue);
-				System.out.println(strKey + "=" + strValue);
+				LogUtil.printVar(strKey, strValue);
 			}
-
+			LogUtil.printMessage("== Done loading danmaku.properties ==");
 			in.close();
 
 		} catch (Exception e) {
