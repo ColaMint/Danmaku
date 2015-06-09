@@ -9,8 +9,8 @@ import com.danmaku.state.StateManager.OnStateChangedListener;
 public abstract class BaseThread extends Thread implements
 		OnStateChangedListener {
 
-	private Semaphore sem;
-	private StateManager stateManager;
+	protected Semaphore sem;
+	protected StateManager stateManager;
 
 	public BaseThread(StateManager stateManager) {
 		this.stateManager = stateManager;

@@ -3,7 +3,7 @@ package com.danmaku.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DanmakuModel extends Object{
+public class DanmakuModel extends Object {
 	public String userid;
 	public String username;
 	public String content;
@@ -22,24 +22,33 @@ public class DanmakuModel extends Object{
 		danmaku.username = jsonObject.getString("username");
 		danmaku.content = jsonObject.getString("content");
 		danmaku.fontSize = jsonObject.getInt("fontSize");
-		danmaku.colorRed = jsonObject.getInt("colorRed" );
+		danmaku.colorRed = jsonObject.getInt("colorRed");
 		danmaku.colorGreen = jsonObject.getInt("colorGreen");
 		danmaku.colorBlue = jsonObject.getInt("colorBlue");
 		danmaku.speed = jsonObject.getInt("speed");
 		return danmaku;
 	}
-	
-	public DanmakuModel copy(){
+
+	public DanmakuModel copy() {
 		DanmakuModel danmaku = new DanmakuModel();
 		danmaku.userid = this.userid;
 		danmaku.username = this.username;
 		danmaku.content = this.content;
-		danmaku.fontSize =this.fontSize;
+		danmaku.fontSize = this.fontSize;
 		danmaku.colorRed = this.colorRed;
-		danmaku.colorGreen =this.colorGreen;
+		danmaku.colorGreen = this.colorGreen;
 		danmaku.colorBlue = this.colorBlue;
 		danmaku.speed = this.speed;
 		return danmaku;
 	}
 
+	public static DanmakuModel createTestData() {
+		DanmakuModel ma = new DanmakuModel();
+		ma.userid = "小明湖畔";
+		ma.username = "Li";
+		ma.content = "虫子是傻逼！";
+		ma.fontSize = 40;
+		ma.speed = 5;
+		return ma;
+	}
 }

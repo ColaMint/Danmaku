@@ -23,20 +23,9 @@ public class DanmakuSet extends Lockable implements OnStateChangedListener {
 		this.boardWidth = boardWidth;
 		this.boardHeight = boardHeight;
 		this.stateMnager.addOnStateChangedListener(this);
-		addTestData();
-	}
-
-	public void add(List<DanmakuModel> newDanmakuList) {
-		for (DanmakuModel danmaku : newDanmakuList) {
-			addHelp(danmaku);
-		}
 	}
 
 	public void add(DanmakuModel danmaku) {
-		addHelp(danmaku);
-	}
-
-	private void addHelp(DanmakuModel danmaku) {
 		/* init danmaku's position */
 		danmaku.x = boardWidth;
 		danmaku.y = random.nextInt(boardHeight);
@@ -74,25 +63,6 @@ public class DanmakuSet extends Lockable implements OnStateChangedListener {
 				e.printStackTrace();
 			}
 
-		}
-	}
-
-	private void addTestData() {
-		try {
-			this.lock();
-			DanmakuModel ma = new DanmakuModel();
-			ma.username = "Li";
-			ma.content = "½¨˜IÊÇÉµ±Æ£¡";
-			ma.fontSize = 40;
-			ma.speed = 5;
-			this.add(ma);
-			this.add(ma.copy());
-			this.add(ma.copy());
-			this.add(ma.copy());
-			this.unLock();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
