@@ -25,14 +25,14 @@ public class ApiConstant {
 	 * @method GET
 	 * @return int lastest_id
 	 */
-	public static final String GET_LATEST_DANMAKU_ID = "/getLastestDanmakuID";
+	public static final String GET_LATEST_DANMAKU_ID = "/get_latest_danmaku_id";
 
 	/**
 	 * @method GET
-	 * @param int smallest_danmaku_id : Those danmakus whose ID is smaller than
+	 * @param int latest_id : Those danmakus whose ID is smaller than
 	 *        this will not return
 	 * @param int max_num : The maximun danmaku number to be returned
-	 * @return array danmakus
+	 * @return array
 	 */
-	public static final String FETCH_DANMAKU = "/fetchDanmaku";
+	public static final String FETCH_DANMAKU = "/fetch_danmaku";
 }

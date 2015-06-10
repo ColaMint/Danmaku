@@ -39,13 +39,13 @@ public class DanmakuApi {
 
 		String url = ApiConstant.getUrlPrefix() + ApiConstant.FETCH_DANMAKU;
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("smallest_danmaku_id", smallest_danmaku_id + "");
+		params.put("latest_id", smallest_danmaku_id + "");
 		params.put("max_num", max_num + "");
 		try {
 			HTTPResponse response = HTTPUtil.sendGet(url, params);
 			JSONObject json = response.getBodyJSON();
 			if (isSuccessful(json)) {
-				JSONArray danmakus = json.getJSONObject("data").getJSONArray("danmakus");
+				JSONArray danmakus = json.getJSONArray("data");
 				for (int i = 0; i < danmakus.length(); ++i) {
 					danmakuList.add(DanmakuModel.fromJSON(danmakus.getJSONObject(i)));
 				}
