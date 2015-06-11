@@ -17,31 +17,31 @@ public class DanmakuPainter {
 
 		Graphics2D g2 = (Graphics2D) g;
 
-		Iterator<DanmakuModel> it = danmakuSet.getDanmakus().iterator();
 		try {
 			danmakuSet.lock();
+			Iterator<DanmakuModel> it = danmakuSet.getDanmakus().iterator();
 			while (it.hasNext()) {
 				DanmakuModel danmaku = it.next();
 
-				/* the final string to be displayed in screen */
+				/* The final string to be displayed in screen. */
 				String danmakuStr = danmaku.username + ":" + danmaku.content;
 
-				/* prepare painting style and draw danmaku */
+				/* Prepare painting style and draw danmaku. */
 				g2.setColor(getColor(danmaku.colorRed, danmaku.colorGreen,
 						danmaku.colorBlue));
 				g2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, danmaku.fontSize));
 				g2.drawString(danmakuStr, danmaku.x, danmaku.y);
 
-				/* move danmaku */
+				/* Move danmaku by its speed. */
 				danmaku.x -= danmaku.speed;
 
-				/* cal the length in pix of this danmaku */
+				/* Cal the length in pix of this danmaku. */
 				FontRenderContext frc = g2.getFontRenderContext();
 				Rectangle2D rect = g2.getFont()
 						.getStringBounds(danmakuStr, frc);
 				int lengthInPix = (int) rect.getWidth();
 
-				/* if this danmaku is out of screen, remove it from list */
+				/* If this danmaku is out of screen, remove it from list. */
 				if (danmaku.x < -lengthInPix) {
 					it.remove();
 				}

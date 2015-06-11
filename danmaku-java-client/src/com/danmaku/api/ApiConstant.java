@@ -18,21 +18,27 @@ public class ApiConstant {
 
 	/**
 	 * API return format :{"success" : 1|0, "data" : ... }.
-	 * Other returned field will be in data.
 	 */
 
 	/**
+	 * @description : Test whether ApiConstant.HOST and ApiConstant.PORT are
+	 *              correct or not.
+	 * @method GET/POST
+	 */
+	public static final String TEST_SERVER = "/api/test_server.php";
+
+	/**
+	 * @description : Get The beggest id of all danmakus.
 	 * @method GET
-	 * @return int lastest_id
 	 */
-	public static final String GET_LATEST_DANMAKU_ID = "/get_latest_danmaku_id";
+	public static final String GET_LATEST_DANMAKU_ID = "/api/get_latest_id.php";
 
 	/**
+	 * @description : Fetch danmakus.
 	 * @method GET
 	 * @param int latest_id : Those danmakus whose ID is smaller than
 	 *        this will not return
 	 * @param int max_num : The maximun danmaku number to be returned
-	 * @return array
 	 */
-	public static final String FETCH_DANMAKU = "/fetch_danmaku";
+	public static final String FETCH_DANMAKU = "/api/fetch.php";
 }

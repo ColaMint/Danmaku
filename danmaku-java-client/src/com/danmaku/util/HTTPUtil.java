@@ -78,7 +78,7 @@ public class HTTPUtil {
 			}
 			return paramString.substring(0, paramString.length() - 1);
 		} else {
-			return null;
+			return "";
 		}
 
 	}

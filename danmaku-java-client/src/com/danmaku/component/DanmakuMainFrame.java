@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -86,7 +87,7 @@ public class DanmakuMainFrame extends JFrame {
 				case STATE_RUNNING: {
 					btnStart.setEnabled(false);
 					btnPause.setEnabled(true);
-					btnStop.setEnabled(true);
+					btnStop.setEnabled(false);
 				}
 					break;
 				case STATE_PAUSE: {
@@ -95,6 +96,12 @@ public class DanmakuMainFrame extends JFrame {
 					btnStop.setEnabled(true);
 				}
 					break;
+				}
+
+				if (oldState == State.STATE_RUNNING && newState == State.STATE_STOP) {
+					JOptionPane.showMessageDialog(DanmakuMainFrame.this, "Please check the host and the port!",
+							"ERROR_MESSAGE",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 
@@ -184,14 +191,35 @@ public class DanmakuMainFrame extends JFrame {
 
 	private void onStartBtnClicked() {
 		ApiConstant.setServer(textHost.getText().trim(), textPort.getText().trim());
-		stateManager.setState(State.STATE_RUNNING);
+		try {
+			stateManager.lock();
+			stateManager.setState(State.STATE_RUNNING);
+			stateManager.unLock();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void onPauseBtnClicked() {
-		stateManager.setState(State.STATE_PAUSE);
+		try {
+			stateManager.lock();
+			stateManager.setState(State.STATE_PAUSE);
+			stateManager.unLock();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void onStopBtnClicked() {
-		stateManager.setState(State.STATE_STOP);
+		try {
+			stateManager.lock();
+			stateManager.setState(State.STATE_STOP);
+			stateManager.unLock();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

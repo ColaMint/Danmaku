@@ -17,8 +17,7 @@ public class DanmakuPaintThread extends BaseThread {
 	public void run() {
 		while (true) {
 			try {
-				sem.acquire();
-				sem.release();
+				this.blockIfNotRunning();
 				paintBoard.repaint();
 				sleep(PAINT_INTERVAL);
 			} catch (InterruptedException e) {

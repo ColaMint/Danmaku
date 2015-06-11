@@ -9,7 +9,7 @@ import com.danmaku.state.StateManager.OnStateChangedListener;
 public abstract class BaseThread extends Thread implements
 		OnStateChangedListener {
 
-	protected Semaphore sem;
+	private Semaphore sem;
 	protected StateManager stateManager;
 
 	public BaseThread(StateManager stateManager) {
@@ -33,12 +33,20 @@ public abstract class BaseThread extends Thread implements
 		}
 	}
 
+	/*
+	 * if StateManager's state is not STATE_RUNNING,
+	 * thread will be blocked here.
+	 */
+	protected void blockIfNotRunning() throws InterruptedException {
+		sem.acquire();
+		sem.release();
+	}
+
 	@Override
 	public void OnStateChanged(com.danmaku.state.StateManager.State oldState,
 			com.danmaku.state.StateManager.State newState) {
 		// TODO Auto-generated method stub
 		try {
-			stateManager.lock();
 			switch (newState) {
 			case STATE_RUNNING: {
 				sem.release();
@@ -55,7 +63,6 @@ public abstract class BaseThread extends Thread implements
 			}
 				break;
 			}
-			stateManager.unLock();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

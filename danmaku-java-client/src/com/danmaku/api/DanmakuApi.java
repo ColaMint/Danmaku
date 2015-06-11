@@ -16,13 +16,33 @@ import com.danmaku.util.HTTPUtil.HTTPResponse;
 
 public class DanmakuApi {
 
-	public static int getLastestDanmakuID() {
-		String url = ApiConstant.getUrlPrefix() + ApiConstant.GET_LATEST_DANMAKU_ID;
+	public static boolean testServer() {
+
+		String url = ApiConstant.getUrlPrefix() + ApiConstant.TEST_SERVER;
+
 		try {
 			HTTPResponse response = HTTPUtil.sendGet(url, null);
 			JSONObject json = response.getBodyJSON();
-			if (isSuccessful(json)) {
-				return json.getJSONObject("data").getInt("lastest_id");
+			if (DanmakuApi.isSuccessful(json)) {
+				return json.getInt("success") == 1;
+			}
+		} catch (IOException | JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	public static int getLastestDanmakuID() {
+
+		String url = ApiConstant.getUrlPrefix() + ApiConstant.GET_LATEST_DANMAKU_ID;
+
+		try {
+			HTTPResponse response = HTTPUtil.sendGet(url, null);
+			JSONObject json = response.getBodyJSON();
+			if (DanmakuApi.isSuccessful(json)) {
+				return json.getInt("data");
 			}
 		} catch (IOException | JSONException e) {
 			// TODO Auto-generated catch block
@@ -35,16 +55,17 @@ public class DanmakuApi {
 
 	public static List<DanmakuModel> fetchDanmaku(int smallest_danmaku_id, int max_num) {
 
+		String url = ApiConstant.getUrlPrefix() + ApiConstant.FETCH_DANMAKU;
+
 		List<DanmakuModel> danmakuList = new ArrayList<DanmakuModel>();
 
-		String url = ApiConstant.getUrlPrefix() + ApiConstant.FETCH_DANMAKU;
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("latest_id", smallest_danmaku_id + "");
 		params.put("max_num", max_num + "");
 		try {
 			HTTPResponse response = HTTPUtil.sendGet(url, params);
 			JSONObject json = response.getBodyJSON();
-			if (isSuccessful(json)) {
+			if (DanmakuApi.isSuccessful(json)) {
 				JSONArray danmakus = json.getJSONArray("data");
 				for (int i = 0; i < danmakus.length(); ++i) {
 					danmakuList.add(DanmakuModel.fromJSON(danmakus.getJSONObject(i)));

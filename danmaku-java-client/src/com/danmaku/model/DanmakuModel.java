@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DanmakuModel extends Object {
+	public int id;
 	public String userid;
 	public String username;
 	public String content;
@@ -18,13 +19,14 @@ public class DanmakuModel extends Object {
 	public static DanmakuModel fromJSON(JSONObject jsonObject)
 			throws JSONException {
 		DanmakuModel danmaku = new DanmakuModel();
+		danmaku.id = jsonObject.getInt("id");
 		danmaku.userid = jsonObject.getString("userid");
 		danmaku.username = jsonObject.getString("username");
 		danmaku.content = jsonObject.getString("content");
-		danmaku.fontSize = jsonObject.getInt("fontSize");
-		danmaku.colorRed = jsonObject.getInt("colorRed");
-		danmaku.colorGreen = jsonObject.getInt("colorGreen");
-		danmaku.colorBlue = jsonObject.getInt("colorBlue");
+		danmaku.fontSize = jsonObject.getInt("font_size");
+		danmaku.colorRed = jsonObject.getInt("color_r");
+		danmaku.colorGreen = jsonObject.getInt("color_g");
+		danmaku.colorBlue = jsonObject.getInt("color_b");
 		danmaku.speed = jsonObject.getInt("speed");
 		return danmaku;
 	}
@@ -50,5 +52,9 @@ public class DanmakuModel extends Object {
 		ma.fontSize = 40;
 		ma.speed = 5;
 		return ma;
+	}
+
+	public void log() {
+
 	}
 }
