@@ -20,7 +20,7 @@
 			$db = DanmakuDb::getInstance();
 			$result = $db->fetch($this->params['latest_id'], $this->params['max_num']);
 			
-			if($result){
+			if($result !== false){
 				$this->outputSuccess($result);
 			}else{
 				$this->outputFailure("Try again or check the param's value you submitted.");

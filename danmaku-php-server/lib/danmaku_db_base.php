@@ -47,7 +47,8 @@
 					return $result->num_rows > 0 ? $result->fetch_assoc() : NULL;
 				}break;
 				case self::DB_QUERY_MANY:{
-					for($res = array(); $tmp = $result->fetch_array(MYSQLI_ASSOC);) $res[] = $tmp;
+					$res = array();
+					while($tmp = $result->fetch_array(MYSQLI_ASSOC)) $res[] = $tmp;
 					return $res; 
 				}break;
 				case self::DB_INSERT:{
