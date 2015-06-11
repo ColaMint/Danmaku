@@ -9,7 +9,7 @@
 		const DB_UPDATE    = 5;
 
 		protected function __construct(){
-			$host 	= intval(DANMAKU_CONFIG::getConfig('db_host'));
+			$host 	= DANMAKU_CONFIG::getConfig('db_host');
 			$port 	= intval(DANMAKU_CONFIG::getConfig('db_port'));
 			$user 	= DANMAKU_CONFIG::getConfig('db_user');
 			$pwd  	= DANMAKU_CONFIG::getConfig('db_pwd' );
