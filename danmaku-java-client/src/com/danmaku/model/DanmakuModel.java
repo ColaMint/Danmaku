@@ -44,17 +44,4 @@ public class DanmakuModel extends Object {
 		return danmaku;
 	}
 
-	public static DanmakuModel createTestData() {
-		DanmakuModel ma = new DanmakuModel();
-		ma.userid = "小明湖畔";
-		ma.username = "Li";
-		ma.content = "虫子是傻逼！";
-		ma.fontSize = 40;
-		ma.speed = 5;
-		return ma;
-	}
-
-	public void log() {
-
-	}
 }

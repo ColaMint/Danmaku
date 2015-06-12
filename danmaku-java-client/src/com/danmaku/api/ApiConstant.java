@@ -4,16 +4,18 @@ public class ApiConstant {
 
 	public static String HOST = "localhost";
 	public static String PORT = "80";
+	public static String PROJECT_NAME = "danmaku-php-server";
 
 	public static final int INVALID_DANMAKU_ID = -1;
 
-	public static void setServer(String host, String port) {
+	public static void setServer(String host, String port, String projectName) {
 		ApiConstant.HOST = host;
 		ApiConstant.PORT = port;
+		ApiConstant.PROJECT_NAME = projectName;
 	}
 
-	public static String getUrlPrefix() {
-		return "http://" + HOST + ":" + PORT;
+	public static String getUrl(String api) {
+		return "http://" + HOST + ":" + PORT + "/" + PROJECT_NAME + "/" +api;
 	}
 
 	/**
@@ -25,13 +27,13 @@ public class ApiConstant {
 	 *              correct or not.
 	 * @method GET/POST
 	 */
-	public static final String TEST_SERVER = "/api/test_server.php";
+	public static final String API_TEST_SERVER = "/api/test_server.php";
 
 	/**
 	 * @description : Get The beggest id of all danmakus.
 	 * @method GET
 	 */
-	public static final String GET_LATEST_DANMAKU_ID = "/api/get_latest_id.php";
+	public static final String API_GET_LATEST_DANMAKU_ID = "/api/get_latest_id.php";
 
 	/**
 	 * @description : Fetch danmakus.
@@ -40,5 +42,5 @@ public class ApiConstant {
 	 *        this will not return
 	 * @param int max_num : The maximun danmaku number to be returned
 	 */
-	public static final String FETCH_DANMAKU = "/api/fetch.php";
+	public static final String API_FETCH_DANMAKU = "/api/fetch.php";
 }

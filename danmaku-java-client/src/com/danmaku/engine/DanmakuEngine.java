@@ -21,7 +21,7 @@ public class DanmakuEngine {
 
 	}
 
-	public void start() {
+	public void run() {
 		if (!hasStart) {
 			paintThread.start();
 			fetchThread.start();

@@ -28,13 +28,15 @@ public class DanmakuMainFrame extends JFrame {
 	/* Frame Params */
 	private final String DANMAKU_FRAME_TITLE = "Danmaku";
 	private final int DANMAKU_FRAME_WIDTH = 250;
-	private final int DANMAKU_FRAME_HEIGHT = 180;
+	private final int DANMAKU_FRAME_HEIGHT = 230;
 
 	/* Frame Component */
 	private JLabel labelHost;
 	private JLabel labelPort;
+	private JLabel labelProjectName;
 	private JTextField textHost;
 	private JTextField textPort;
+	private JTextField textProjectName;
 	private JButton btnStart;
 	private JButton btnPause;
 	private JButton btnStop;
@@ -99,7 +101,7 @@ public class DanmakuMainFrame extends JFrame {
 				}
 
 				if (oldState == State.STATE_RUNNING && newState == State.STATE_STOP) {
-					JOptionPane.showMessageDialog(DanmakuMainFrame.this, "Please check the host and the port!",
+					JOptionPane.showMessageDialog(DanmakuMainFrame.this, "Please check your params!",
 							"ERROR_MESSAGE",
 							JOptionPane.ERROR_MESSAGE);
 				}
@@ -130,9 +132,15 @@ public class DanmakuMainFrame extends JFrame {
 		labelPort.setBounds(40, 65, 75, 25);
 		this.add(labelPort);
 
+		/* init labelProjectName */
+		labelProjectName = new JLabel();
+		labelProjectName.setText("Project:");
+		labelProjectName.setBounds(25, 110, 75, 25);
+		this.add(labelProjectName);
+
 		/* init textHost */
 		textHost = new JTextField();
-		textHost.setText(conf.getProperty("danmaku.host", "localhost"));
+		textHost.setText(conf.getProperty("danmaku.host", ApiConstant.HOST));
 		textHost.setBounds(80, 20, 120, 25);
 		textHost.setBorder(BorderFactory.createCompoundBorder(
 				new EtchedBorder(), new EmptyBorder(0, 5, 0, 5)));
@@ -140,16 +148,24 @@ public class DanmakuMainFrame extends JFrame {
 
 		/* init textPort */
 		textPort = new JTextField();
-		textPort.setText(conf.getProperty("danmaku.port", "80"));
+		textPort.setText(conf.getProperty("danmaku.port", ApiConstant.PORT));
 		textPort.setBounds(80, 65, 120, 25);
 		textPort.setBorder(BorderFactory.createCompoundBorder(
 				new EtchedBorder(), new EmptyBorder(0, 5, 0, 5)));
 		this.add(textPort);
 
+		/* init textProjectName */
+		textProjectName = new JTextField();
+		textProjectName.setText(conf.getProperty("danmaku.project_name", ApiConstant.PROJECT_NAME));
+		textProjectName.setBounds(80, 110, 120, 25);
+		textProjectName.setBorder(BorderFactory.createCompoundBorder(
+				new EtchedBorder(), new EmptyBorder(0, 5, 0, 5)));
+		this.add(textProjectName);
+
 		/* init btnStart */
 		btnStart = new JButton();
 		btnStart.setText("Start");
-		btnStart.setBounds(15, 110, 70, 25);
+		btnStart.setBounds(15, 155, 70, 25);
 		this.add(btnStart);
 		btnStart.addMouseListener(new MouseAdapter() {
 			@Override
@@ -163,7 +179,7 @@ public class DanmakuMainFrame extends JFrame {
 		/* init btnPause */
 		btnPause = new JButton();
 		btnPause.setText("Pause");
-		btnPause.setBounds(90, 110, 70, 25);
+		btnPause.setBounds(90, 155, 70, 25);
 		this.add(btnPause);
 		btnPause.addMouseListener(new MouseAdapter() {
 			@Override
@@ -177,7 +193,7 @@ public class DanmakuMainFrame extends JFrame {
 		/* init btnStop */
 		btnStop = new JButton();
 		btnStop.setText("Stop");
-		btnStop.setBounds(165, 110, 70, 25);
+		btnStop.setBounds(165, 155, 70, 25);
 		this.add(btnStop);
 		btnStop.addMouseListener(new MouseAdapter() {
 			@Override
@@ -190,7 +206,7 @@ public class DanmakuMainFrame extends JFrame {
 	}
 
 	private void onStartBtnClicked() {
-		ApiConstant.setServer(textHost.getText().trim(), textPort.getText().trim());
+		ApiConstant.setServer(textHost.getText().trim(), textPort.getText().trim(), textProjectName.getText().trim());
 		try {
 			stateManager.lock();
 			stateManager.setState(State.STATE_RUNNING);

@@ -49,6 +49,7 @@ public class StateManager extends Lockable {
 	}
 
 	public static interface OnStateChangedListener {
+		/* Since StateManager is lockable, don't call StateManager::lock() in this function, otherwise it may lead to dead lock.*/
 		public void OnStateChanged(State oldState, State newState);
 	}
 }

@@ -18,7 +18,7 @@ public class DanmakuApi {
 
 	public static boolean testServer() {
 
-		String url = ApiConstant.getUrlPrefix() + ApiConstant.TEST_SERVER;
+		String url = ApiConstant.getUrl(ApiConstant.API_TEST_SERVER);
 
 		try {
 			HTTPResponse response = HTTPUtil.sendGet(url, null);
@@ -36,7 +36,7 @@ public class DanmakuApi {
 
 	public static int getLastestDanmakuID() {
 
-		String url = ApiConstant.getUrlPrefix() + ApiConstant.GET_LATEST_DANMAKU_ID;
+		String url = ApiConstant.getUrl(ApiConstant.API_GET_LATEST_DANMAKU_ID);
 
 		try {
 			HTTPResponse response = HTTPUtil.sendGet(url, null);
@@ -55,7 +55,7 @@ public class DanmakuApi {
 
 	public static List<DanmakuModel> fetchDanmaku(int smallest_danmaku_id, int max_num) {
 
-		String url = ApiConstant.getUrlPrefix() + ApiConstant.FETCH_DANMAKU;
+		String url = ApiConstant.getUrl(ApiConstant.API_FETCH_DANMAKU);
 
 		List<DanmakuModel> danmakuList = new ArrayList<DanmakuModel>();
 
