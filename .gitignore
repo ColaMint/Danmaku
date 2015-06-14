@@ -1,3 +1,7 @@
 /danmaku-java-client/bin/
 /danmaku-native-vs-project/
 /danmaku-php-server/weixin/wechat-php-sdk/
+/danmaku-php-server/weixin/composer.phar
+/danmaku-php-server/weixin/vendor/
+/danmaku-php-server/weixin/composer.lock
+tags
