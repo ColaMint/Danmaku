@@ -51,32 +51,37 @@ public class DanmakuFetchThread extends BaseThread {
 				if (smallest_danmaku_id == ApiConstant.INVALID_DANMAKU_ID) {
 					smallest_danmaku_id = DanmakuApi.getLastestDanmakuID();
 				} else {
-					danmakuSet.lock();
-					userSet.lock();
 
 					List<DanmakuModel> danmakuList =
 							DanmakuApi.fetchDanmaku(smallest_danmaku_id,
 									FETCH_MAX_NUM);
-					for (DanmakuModel danmaku : danmakuList) {
+					if (danmakuList.size() > 0) {
 
-						if (userSet.contains(danmaku.userid)) {
-							if (!userSet.isbanned(danmaku.userid)) {
+						danmakuSet.lock();
+						userSet.lock();
+
+						for (DanmakuModel danmaku : danmakuList) {
+
+							if (userSet.contains(danmaku.userid)) {
+								if (!userSet.isbanned(danmaku.userid)) {
+									danmakuSet.add(danmaku);
+									userSet.increaseSpeechnum(danmaku.userid);
+								}
+							} else {
 								danmakuSet.add(danmaku);
+								userSet.add(danmaku.userid, danmaku.username);
 								userSet.increaseSpeechnum(danmaku.userid);
 							}
-						} else {
-							danmakuSet.add(danmaku);
-							userSet.add(danmaku.userid, danmaku.username);
-							userSet.increaseSpeechnum(danmaku.userid);
+
+							if (danmaku.id > smallest_danmaku_id) {
+								smallest_danmaku_id = danmaku.id;
+							}
 						}
 
-						if (danmaku.id > smallest_danmaku_id) {
-							smallest_danmaku_id = danmaku.id;
-						}
+						userSet.unLock();
+						danmakuSet.unLock();
+
 					}
-
-					userSet.unLock();
-					danmakuSet.unLock();
 				}
 				sleep(FETCH_INTERVAL);
 			} catch (InterruptedException e) {

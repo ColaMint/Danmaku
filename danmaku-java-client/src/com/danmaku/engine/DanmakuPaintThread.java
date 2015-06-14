@@ -7,7 +7,7 @@ import com.danmaku.state.StateManager;
 public class DanmakuPaintThread extends BaseThread {
 
 	private Component paintBoard;
-	private static final int PAINT_INTERVAL = 25;
+	private static final int PAINT_INTERVAL = 30;
 
 	public DanmakuPaintThread(StateManager stateManager, Component paintBoard) {
 		super(stateManager);
