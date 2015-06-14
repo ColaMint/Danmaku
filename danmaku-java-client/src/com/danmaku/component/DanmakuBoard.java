@@ -81,7 +81,7 @@ public class DanmakuBoard extends JDialog {
 			if (hasSetTransparent
 					&& stateManager.checkState(State.STATE_RUNNING)) {
 
-				DanmakuBoard.this.toFront();
+				//DanmakuBoard.this.toFront();
 
 				Graphics2D g2 = (Graphics2D) g;
 

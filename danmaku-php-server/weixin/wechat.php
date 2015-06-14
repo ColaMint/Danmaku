@@ -10,14 +10,17 @@
 	$db = DanmakuDb::getInstance();
 
 	$weObj = new Wechat($options);
-	$weObj->valid();
+	
+	$weObj->valid();//after validation for the first time, comment this line
+
 	$type = $weObj->getRev()->getRevType();
 	switch($type){
-		case Weichat::MSGTYPE_TEXT:{
+		case Wechat::MSGTYPE_TEXT:{
 			$openid = $weObj->getRevFrom();
 			$user_info = $weObj->getUserInfo($openid);
 			if($user_info){
-				$ad->add($openid, $user_info['nickname'], $weObj->getRevContentgetRevContent());
+				$db->add($openid, $user_info['nickname'], $weObj->getRevContent());
+                $weObj->text("弹幕发送成功!")->reply();
 			}	
 		}break;
 	}

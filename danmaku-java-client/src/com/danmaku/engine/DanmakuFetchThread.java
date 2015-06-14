@@ -51,7 +51,6 @@ public class DanmakuFetchThread extends BaseThread {
 				if (smallest_danmaku_id == ApiConstant.INVALID_DANMAKU_ID) {
 					smallest_danmaku_id = DanmakuApi.getLastestDanmakuID();
 				} else {
-					smallest_danmaku_id = 1;
 					danmakuSet.lock();
 					userSet.lock();
 
