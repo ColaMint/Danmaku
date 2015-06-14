@@ -5,7 +5,7 @@
 	class ApiClearTable extends ApiBase {
 		
 		public function __construct(){
-			parent::__construct(self::API_TYPE_POST);
+			parent::__construct(self::API_TYPE_GET);
 		}
 
 		protected function process(){
