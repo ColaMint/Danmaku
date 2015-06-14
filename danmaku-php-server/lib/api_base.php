@@ -66,7 +66,7 @@
 
 		}
 
-		protected function async(){
+		protected function asyn(){
 
 		}
 
