@@ -27,21 +27,23 @@
 
 			$sql = "INSERT INTO `dmk_danmaku` (`userid`, `username`, `content`, `font_size`, `color_r`, `color_g`, `color_b`, `speed`) 
 					VALUES ('$userid', '$username', '$content', '$font_size', '$color_r', '$color_g', '$color_b', '$speed')";
-			return $this->_query($sql, self::DB_INSERT);
+			return $this->_insert($sql);
 		}
 
 		public function getLatestID(){
 			$sql = 'SELECT MAX(`id`) AS `id` FROM `dmk_danmaku`';
-		    $result = $this->_query($sql, self::DB_QUERY_ONE);
+		    $result = $this->_queryOne($sql);
 			return $result === false ? 0 : $result['id'];	
 		}
 
 		public function fetch($latest_id, $return_num = 50){
 			$sql = "SELECT * FROM `dmk_danmaku` WHERE `id` > $latest_id ORDER BY `id` ASC";
-			return $this->_query($sql, self::DB_QUERY_MANY);
+			return $this->_queryAll($sql);
 		}
 
+		public function clearTable(){
+			$sql = "DELETE FROM `dmk_danmaku` WHERE 1";
+			return $this->_delete($sql);
+		}
 
 	}
-
-

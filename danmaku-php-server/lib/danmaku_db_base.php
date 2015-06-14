@@ -20,23 +20,23 @@
 		}
 
 		protected function _queryOne($sql){
-			return $this->_query($sql, DB_QUERY_ONE);
+			return $this->_query($sql, self::DB_QUERY_ONE);
 		}
 
 		protected function _queryAll($sql){
-			return $this->_query($sql, DB_QUERY_ALL);
+			return $this->_query($sql, self::DB_QUERY_ALL);
 		}
 
 		protected function _insert($sql){
-			return $this->_query($sql, DB_INSERT);
+			return $this->_query($sql, self::DB_INSERT);
 		}
 
 		protected function _delete($sql){
-			return $this->_query($sql, DB_DELETE);
+			return $this->_query($sql, self::DB_DELETE);
 		}
 
 		protected function _update($sql, $op_type){
-			return $this->_query($sql, DB_UPDATE);
+			return $this->_query($sql, self::DB_UPDATE);
 		}
 
 		protected function _query($sql, $op_type){
@@ -55,7 +55,7 @@
 					return $this->insert_id;
 				}break;
 				case self::DB_UPDATE:
-				case self:{
+				case self::DB_DELETE:{
 					return $this->affected_rows;
 				}break;
 				}
