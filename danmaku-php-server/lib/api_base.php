@@ -85,8 +85,6 @@
 			$output	= array('success' => 0, 'code' => $code, 'message' => $message);
 			echo json_encode($output);
 			
-			fastcgi_finish_request();
-			
 			exit();
 		}
 	}
