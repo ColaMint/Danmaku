@@ -19,8 +19,11 @@
 			$openid = $weObj->getRevFrom();
 			$user_info = $weObj->getUserInfo($openid);
 			if($user_info){
-				$db->add($openid, $user_info['nickname'], $weObj->getRevContent());
-                $weObj->text("弹幕发送成功!")->reply();
+				if($db->add($openid, $user_info['nickname'], $weObj->getRevContent())){
+					$weObj->text("弹幕发送成功!")->reply();
+				}else{
+					$weObj->text("弹幕发送失败!")->reply();
+				}
 			}	
 		}break;
 	}
