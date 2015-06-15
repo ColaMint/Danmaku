@@ -15,7 +15,20 @@
 			return DanmakuDb::$db;
 		}	
 
-		public function add($userid, $username, $content, $font_size = 40, $color_r = 0, $color_g = 0, $color_b = 0, $speed = 5){
+		public function createChannel($channel_name){
+			$channel_name = trim($trim_name);
+
+			$sql = "INSERT INTO `dmk_channel` (`channel_name`) VALUES ('$channel_name')";
+			return $this->_insert($sql);
+		}
+
+		public function queryChannel($channel_id){
+			$sql = "SELECT * FROM `dmk_channel` WHERE `id` = '$channel_id' LIMIT 1";
+			
+			return $this->_queryOne($sql);
+		}
+
+		public function add($userid, $channel_id, $username, $content, $font_size = 40, $color_r = 0, $color_g = 0, $color_b = 0, $speed = 5){
 			$userid = trim($userid);
 			$username = trim($username);
 			$content = trim($content);
@@ -25,19 +38,19 @@
 			if($color_b < 0 || $color_b > 255) $color_b = 0;
 			if($speed < 0) $speed = 5;
 
-			$sql = "INSERT INTO `dmk_danmaku` (`userid`, `username`, `content`, `font_size`, `color_r`, `color_g`, `color_b`, `speed`) 
-					VALUES ('$userid', '$username', '$content', '$font_size', '$color_r', '$color_g', '$color_b', '$speed')";
+			$sql = "INSERT INTO `dmk_danmaku` (`userid`, `channel_id`, `username`, `content`, `font_size`, `color_r`, `color_g`, `color_b`, `speed`) 
+					VALUES ('$userid', '$channel_id', '$username', '$content', '$font_size', '$color_r', '$color_g', '$color_b', '$speed')";
 			return $this->_insert($sql);
 		}
 
-		public function getLatestID(){
-			$sql = 'SELECT MAX(`id`) AS `id` FROM `dmk_danmaku`';
+		public function getLatestID($channel_id){
+			$sql = "SELECT MAX(`id`) AS `id` FROM `dmk_danmaku` WHERE `channel_id` = '$channel_id'";
 		    $result = $this->_queryOne($sql);
 			return $result === false ? 0 : $result['id'];	
 		}
 
-		public function fetch($latest_id, $return_num = 50){
-			$sql = "SELECT * FROM `dmk_danmaku` WHERE `id` > $latest_id ORDER BY `id` ASC";
+		public function fetch($channel_name, $latest_id, $return_num = 50){
+			$sql = "SELECT * FROM `dmk_danmaku` WHERE `channel_id` = '$channel_id' AND `id` > $latest_id ORDER BY `id` ASC LIMIT $return_num";
 			return $this->_queryAll($sql);
 		}
 
