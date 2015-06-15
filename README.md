@@ -77,11 +77,14 @@ danmaku.project_name=danmaku-php-server
         Method               :  GET
         Mandotary Params     ： latest_id   int
         Not Mandotary Params ： max_num     int     (default : 50)
-        Return Data          :  ID大于latest_id中id较小的弹幕数据,最多返回maxnum条数据
+        Return Data          :  返回ID大于latest_id中id较小的弹幕数据,最多返回maxnum条数据
 *   清空所有弹幕
 
         URL                  :  http://host:port/danmaku-php-server/api/clear_table.php
         Method               :  POST
         Return Data          :  NULL
-                                
+*   测试服务器是否可以提供服务
 
+        URL                  :  http://host:port/danmaku-php-server/api/test_server.php
+        Method               :  GET
+        Return Data          :  NULL
