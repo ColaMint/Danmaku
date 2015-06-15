@@ -100,9 +100,10 @@ danmaku.project_name=danmaku-php-server
                         'appsecret' => 'xxx');
 ```
 *   在微信公众号后台配置接口信息
+        
         URL：http://host:port/danmaku-php-server/weixin/wechat.php
         Token:danmaku
-    
     验证接口配置信息时把 /danmaku-php-server/weixin/wechat.php 中下面这行代码取消注释，验证完后加上注释
+        
         $weObj->valid();
 *   打开桌面端程序，填写服务器信息，并启动，然后在公众号上发送弹幕吧！
