@@ -6,8 +6,25 @@ Danmaku是一个弹幕软件，可用于举办活动时，在Windows系统的电
 
 ##  部署指南
 -------
-Part-One:danmaku-php-server
+###Part-One:danmaku-php-server
 * 导入数据库脚本:/danmaku-php-server/danmaku.sql
+```
+    脚本中创建表的语句：
+
+    CREATE TABLE `dmk_danmaku` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `userid` varchar(64) NOT NULL,
+        `username` varchar(32) NOT NULL,
+        `content` text NOT NULL,
+        `font_size` tinyint(4) unsigned NOT NULL DEFAULT '40',
+        `color_r` tinyint(4) unsigned NOT NULL DEFAULT '0',
+        `color_g` tinyint(4) unsigned NOT NULL DEFAULT '0',
+        `color_b` tinyint(4) unsigned NOT NULL DEFAULT '0',
+        `speed` tinyint(4) unsigned NOT NULL DEFAULT '5',
+        `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+```
 * 修改数据库连接参数的配置文件：/danmaku-php-server/config.php
 ```php
   private static $config = array(
@@ -19,7 +36,7 @@ Part-One:danmaku-php-server
   );
 ```
 
-Part-Two:danmaku-java-client
+###Part-Two:danmaku-java-client
 * 导入项目到eclipse
 * 修改服务器参数的配置文件（也可在运行程序时填写）:/danmaku-java-client/danmaku.properties
 ```
@@ -27,3 +44,44 @@ danmaku.host=localhost
 danmaku.port=80
 danmaku.project_name=danmaku-php-server
 ```
+* 建议试运行后导出jar放在一个文件夹，并把danmaku.properties、DanmakuNative_x86.dll、DanmakuNative_x64.dll放在该文件夹中
+
+###Part-Three:根据PHP端提供的API开发弹幕发送程序
+#####API 返回的数据格式 ( json )
+        成功 ：{"success":1,"data":...}
+        失败 : {"success":0,"code":"错误码","message":"错误信息"}
+#####一条弹幕包含的字段
+
+    
+#####API 列表 ：
+*   添加弹幕 
+
+        URL                  :  http://host:port/danmaku-php-server/api/add.php
+        Method               :  POST
+        Mandotary Params     ： userid      string
+                                username    string
+                                content     string
+        Not Mandotary Params ： font_size   int     (default : 40)
+                                color_r     int     (default :  0)
+                                color_g     int     (default :  0)
+                                color_b     int     (default :  0)
+        Return Data          :  NULL
+*   获取最新弹幕ID 
+
+        URL                  :  http://host:port/danmaku-php-server/api/get_latest_id.php
+        Method               :  GET
+        Return Data          :  最新弹幕ID  int
+*   获取弹幕
+
+        URL                  :  http://host:port/danmaku-php-server/api/fetch.php
+        Method               :  GET
+        Mandotary Params     ： latest_id   int
+        Not Mandotary Params ： max_num     int     (default : 50)
+        Return Data          :  ID大于latest_id中id较小的弹幕数据,最多返回maxnum条数据
+*   清空所有弹幕
+
+        URL                  :  http://host:port/danmaku-php-server/api/clear_table.php
+        Method               :  POST
+        Return Data          :  NULL
+                                
+
