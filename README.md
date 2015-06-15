@@ -1,7 +1,7 @@
 #Danmaku
 ##  介绍
 -------
-Danmaku是一个弹幕软件，可用于举办活动时，在Windows系统的电脑屏幕上显示弹幕，让参加活动的人员发送弹幕。
+Danmaku是一款弹幕软件，可用于举办活动时，在Windows系统的电脑屏幕上显示弹幕，让参加活动的人员发送弹幕。
 发送弹幕的形式可以根据API进行二次开发，也可以参照项目中的微信端代码。
 
 ##  部署指南
@@ -88,3 +88,21 @@ danmaku.project_name=danmaku-php-server
         URL                  :  http://host:port/danmaku-php-server/api/test_server.php
         Method               :  GET
         Return Data          :  NULL
+
+###Part-Four:部署弹幕发送端于微信公众号的示例程序 /danmaku-php-server/weixin
+*   使用composer下载php依赖库wechat-php-sdk
+   
+    [详细过程点此查看](https://github.com/meso5533/Danmaku/tree/master/danmaku-php-server/weixin)
+*   修改微信公众号参数：/danmaku-php-server/weixin/wechat.php
+```php
+   $options = array(    'token' => 'danmaku',
+                        'appid' => 'xxx',
+                        'appsecret' => 'xxx');
+```
+*   在微信公众号后台配置接口信息
+        URL：http://host:port/danmaku-php-server/weixin/wechat.php
+        Token:danmaku
+    
+    验证接口配置信息时把 /danmaku-php-server/weixin/wechat.php 中下面这行代码取消注释，验证完后加上注释
+        $weObj->valid();
+*   打开桌面端程序，填写服务器信息，并启动，然后在公众号上发送弹幕吧！
