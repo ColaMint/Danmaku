@@ -8,7 +8,7 @@
 			parent::__construct(self::API_TYPE_GET);
 		}
 
-		private $mandatory = array('latest_id');
+		private $mandatory = array('latest_id' ,'channel_id');
 
 		private $notMandatory = array('max_num' => 50);
 
@@ -18,12 +18,12 @@
 
 		protected function process(){
 			$db = DanmakuDb::getInstance();
-			$result = $db->fetch($this->params['latest_id'], $this->params['max_num']);
+			$result = $db->fetch($this->params['channel_id'], $this->params['latest_id'], $this->params['max_num']);
 			
 			if($result !== false){
 				$this->outputSuccess($result);
 			}else{
-				$this->outputFailure("Try again or check the param's value you submitted.");
+				$this->outputCommonFailure();
 			}	
 		}
 	}

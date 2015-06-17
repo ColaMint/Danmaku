@@ -9,6 +9,7 @@
 		}
 
 		private $mandatory = array(	'userid',
+									'channel_id',
 									'username',
 		   							'content');
 
@@ -25,12 +26,12 @@
 		protected function process(){
 			
 			$db = DanmakuDb::getInstance();
-			$result = $db->add(	$this->params['userid'], $this->params['username'], $this->params['content'], 
+			$result = $db->add(	$this->params['userid'], $this->params['channel_id'], $this->params['username'], $this->params['content'], 
 								$this->params['font_size'], $this->params['color_r'], $this->params['color_g'], $this->params['color_b'], $this->params['speed']);
 			if($result){
 				$this->outputSuccess(NULL);
 			}else{
-				$this->outputFailure("Try again or check the param's value you submitted.");
+				$this->outputCommonFailure();
 			}
 		}
 	}

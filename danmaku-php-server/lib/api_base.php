@@ -80,6 +80,10 @@
 			echo json_encode($output);
 		}
 
+		protected function outputCommonFailure(){
+			$this->outputFailure("Try again or check the param's value you submitted.");
+		}
+
 		protected function handleException($message, $code = -1){
 			
 			$output	= array('success' => 0, 'code' => $code, 'message' => $message);

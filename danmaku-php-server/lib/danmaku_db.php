@@ -49,14 +49,13 @@
 			return $result === false ? 0 : $result['id'];	
 		}
 
-		public function fetch($channel_name, $latest_id, $return_num = 50){
+		public function fetch($channel_id, $latest_id, $return_num = 50){
 			$sql = "SELECT * FROM `dmk_danmaku` WHERE `channel_id` = '$channel_id' AND `id` > $latest_id ORDER BY `id` ASC LIMIT $return_num";
 			return $this->_queryAll($sql);
 		}
 
-		public function clearTable(){
-			$sql = "DELETE FROM `dmk_danmaku` WHERE 1";
+		public function clearTable($channel_id){
+			$sql = "DELETE FROM `dmk_danmaku` WHERE `channel_id` = '$channel_id'";
 			return $this->_delete($sql);
 		}
-
 	}

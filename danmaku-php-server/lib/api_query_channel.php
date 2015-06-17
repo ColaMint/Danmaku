@@ -1,10 +1,11 @@
 <?php
 	require_once(DMK_LIB_PATH . '/api_base.php');
 	require_once(DMK_LIB_PATH . '/danmaku_db.php');
-	class ApiGetLatestID extends ApiBase{
+
+	class ApiQueryChannel extends ApiBase{
 		
 		public function __construct(){
-			parent::__construct(self::API_TYPE_GET);
+			parent::__construct(self::API_TYPE_GET_OR_POST);
 		}
 
 		private $mandatory = array('channel_id');
@@ -13,11 +14,16 @@
 			$this->checkField($this->mandatory, NULL);
 		}
 
-		protected function process(){
+		public function process(){
 			$db = DanmakuDb::getInstance();
-			$latestID = $db->getLatestID($this->params['channel_id']);
-			$this->outputSuccess($latestID);	
+			$result = $db->queryChannel($this->params['channel_id']);
+			if($result){
+				$this-outputSuccess(NULL);
+			}else{
+				$this->outputCommonFailure();
+			}
+			$this->outputSuccess(NULL);
 		}
-	}
 
+	}
 ?>
