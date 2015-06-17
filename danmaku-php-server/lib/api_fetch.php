@@ -19,7 +19,6 @@
 		protected function process(){
 			$db = DanmakuDb::getInstance();
 			$result = $db->fetch($this->params['channel_id'], $this->params['latest_id'], $this->params['max_num']);
-			
 			if($result !== false){
 				$this->outputSuccess($result);
 			}else{

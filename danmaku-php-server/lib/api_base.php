@@ -49,7 +49,9 @@
 
 			if(is_array($notMandatory)){	
 				foreach($notMandatory as $field => $defaultVal){
-					$this->params[$field] = isset($this->params[$field]) ? trim($this->params[$filed]) : $defaultVal;
+					if(!isset($this->params[$field])){
+						$this->params[$field] = $defaultVal;
+					}
 				}
 			}
 		}

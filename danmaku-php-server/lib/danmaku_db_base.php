@@ -24,7 +24,7 @@
 		}
 
 		protected function _queryAll($sql){
-			return $this->_query($sql, self::DB_QUERY_ALL);
+			return $this->_query($sql, self::DB_QUERY_MANY);
 		}
 
 		protected function _insert($sql){

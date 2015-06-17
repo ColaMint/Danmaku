@@ -17,12 +17,13 @@
 		public function process(){
 			$db = DanmakuDb::getInstance();
 			$result = $db->queryChannel($this->params['channel_id']);
-			if($result){
-				$this-outputSuccess(NULL);
-			}else{
+			if($result === false){
 				$this->outputCommonFailure();
+			}else if($result){
+				$this->outputSuccess(NULL);
+			}else{
+				$this->outputFailure("Channel ID does not exist.");
 			}
-			$this->outputSuccess(NULL);
 		}
 
 	}

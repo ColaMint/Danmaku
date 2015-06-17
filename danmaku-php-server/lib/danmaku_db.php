@@ -16,7 +16,7 @@
 		}	
 
 		public function createChannel($channel_name){
-			$channel_name = trim($trim_name);
+			$channel_name = trim($channel_name);
 
 			$sql = "INSERT INTO `dmk_channel` (`channel_name`) VALUES ('$channel_name')";
 			return $this->_insert($sql);
@@ -46,7 +46,7 @@
 		public function getLatestID($channel_id){
 			$sql = "SELECT MAX(`id`) AS `id` FROM `dmk_danmaku` WHERE `channel_id` = '$channel_id'";
 		    $result = $this->_queryOne($sql);
-			return $result === false ? 0 : $result['id'];	
+			return $result === false || empty($result['id'])? 0 : $result['id'];	
 		}
 
 		public function fetch($channel_id, $latest_id, $return_num = 50){
