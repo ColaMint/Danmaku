@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 public class DanmakuModel extends Object {
 	public int id;
+	public int channel_id;
 	public String userid;
 	public String username;
 	public String content;
@@ -20,6 +21,7 @@ public class DanmakuModel extends Object {
 			throws JSONException {
 		DanmakuModel danmaku = new DanmakuModel();
 		danmaku.id = jsonObject.getInt("id");
+		danmaku.channel_id = jsonObject.getInt("channel_id");
 		danmaku.userid = jsonObject.getString("userid");
 		danmaku.username = jsonObject.getString("username");
 		danmaku.content = jsonObject.getString("content");
@@ -30,18 +32,4 @@ public class DanmakuModel extends Object {
 		danmaku.speed = jsonObject.getInt("speed");
 		return danmaku;
 	}
-
-	public DanmakuModel copy() {
-		DanmakuModel danmaku = new DanmakuModel();
-		danmaku.userid = this.userid;
-		danmaku.username = this.username;
-		danmaku.content = this.content;
-		danmaku.fontSize = this.fontSize;
-		danmaku.colorRed = this.colorRed;
-		danmaku.colorGreen = this.colorGreen;
-		danmaku.colorBlue = this.colorBlue;
-		danmaku.speed = this.speed;
-		return danmaku;
-	}
-
 }

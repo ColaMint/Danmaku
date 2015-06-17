@@ -29,7 +29,9 @@ public class DanmakuFetchThread extends BaseThread {
 			public void OnStateChanged(com.danmaku.state.StateManager.State oldState,
 					com.danmaku.state.StateManager.State newState) {
 				// TODO Auto-generated method stub
-
+				if(newState == com.danmaku.state.StateManager.State.STATE_STOP){
+					isApiHostAvailable = false;
+				}
 			}
 
 		});
@@ -40,7 +42,7 @@ public class DanmakuFetchThread extends BaseThread {
 			try {
 				this.blockIfNotRunning();
 				if (!isApiHostAvailable) {
-					isApiHostAvailable = DanmakuApi.testServer();
+					isApiHostAvailable = DanmakuApi.queryChannel(ApiConstant.CHANNEL_ID);
 				}
 				if (!isApiHostAvailable) {
 					stateManager.lock();
@@ -49,11 +51,11 @@ public class DanmakuFetchThread extends BaseThread {
 					continue;
 				}
 				if (smallest_danmaku_id == ApiConstant.INVALID_DANMAKU_ID) {
-					smallest_danmaku_id = DanmakuApi.getLastestDanmakuID();
+					smallest_danmaku_id = DanmakuApi.getLastestDanmakuID(ApiConstant.CHANNEL_ID);
 				} else {
 
 					List<DanmakuModel> danmakuList =
-							DanmakuApi.fetchDanmaku(smallest_danmaku_id,
+							DanmakuApi.fetchDanmaku(ApiConstant.CHANNEL_ID, smallest_danmaku_id,
 									FETCH_MAX_NUM);
 					if (danmakuList.size() > 0) {
 

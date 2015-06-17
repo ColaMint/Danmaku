@@ -28,15 +28,17 @@ public class DanmakuMainFrame extends JFrame {
 	/* Frame Params */
 	private final String DANMAKU_FRAME_TITLE = "Danmaku";
 	private final int DANMAKU_FRAME_WIDTH = 250;
-	private final int DANMAKU_FRAME_HEIGHT = 230;
+	private final int DANMAKU_FRAME_HEIGHT = 280;
 
 	/* Frame Component */
 	private JLabel labelHost;
 	private JLabel labelPort;
 	private JLabel labelProjectName;
+	private JLabel labelChannelId;
 	private JTextField textHost;
 	private JTextField textPort;
 	private JTextField textProjectName;
+	private JTextField textChannelId;
 	private JButton btnStart;
 	private JButton btnPause;
 	private JButton btnStop;
@@ -138,6 +140,12 @@ public class DanmakuMainFrame extends JFrame {
 		labelProjectName.setBounds(25, 110, 75, 25);
 		this.add(labelProjectName);
 
+		/* init labelChannelId */
+		labelChannelId = new JLabel();
+		labelChannelId.setText("Channel ID:");
+		labelChannelId.setBounds(6, 155, 75, 25);
+		this.add(labelChannelId);
+
 		/* init textHost */
 		textHost = new JTextField();
 		textHost.setText(conf.getProperty("danmaku.host", ApiConstant.HOST));
@@ -162,10 +170,18 @@ public class DanmakuMainFrame extends JFrame {
 				new EtchedBorder(), new EmptyBorder(0, 5, 0, 5)));
 		this.add(textProjectName);
 
+		/* init textChannelId */
+		textChannelId = new JTextField();
+		textChannelId.setText(conf.getProperty("danmaku.channel_id", ApiConstant.PROJECT_NAME));
+		textChannelId.setBounds(80, 155, 120, 25);
+		textChannelId.setBorder(BorderFactory.createCompoundBorder(
+				new EtchedBorder(), new EmptyBorder(0, 5, 0, 5)));
+		this.add(textChannelId);
+
 		/* init btnStart */
 		btnStart = new JButton();
 		btnStart.setText("Start");
-		btnStart.setBounds(15, 155, 70, 25);
+		btnStart.setBounds(15, 200, 70, 25);
 		this.add(btnStart);
 		btnStart.addMouseListener(new MouseAdapter() {
 			@Override
@@ -179,7 +195,7 @@ public class DanmakuMainFrame extends JFrame {
 		/* init btnPause */
 		btnPause = new JButton();
 		btnPause.setText("Pause");
-		btnPause.setBounds(90, 155, 70, 25);
+		btnPause.setBounds(90, 200, 70, 25);
 		this.add(btnPause);
 		btnPause.addMouseListener(new MouseAdapter() {
 			@Override
@@ -193,7 +209,7 @@ public class DanmakuMainFrame extends JFrame {
 		/* init btnStop */
 		btnStop = new JButton();
 		btnStop.setText("Stop");
-		btnStop.setBounds(165, 155, 70, 25);
+		btnStop.setBounds(165, 200, 70, 25);
 		this.add(btnStop);
 		btnStop.addMouseListener(new MouseAdapter() {
 			@Override
@@ -206,7 +222,22 @@ public class DanmakuMainFrame extends JFrame {
 	}
 
 	private void onStartBtnClicked() {
-		ApiConstant.setServer(textHost.getText().trim(), textPort.getText().trim(), textProjectName.getText().trim());
+		String host = textHost.getText().trim();
+		String port = textPort.getText().trim();
+		String project_name = textProjectName.getText().trim();
+		int channel_id;
+
+		try {
+			channel_id = Integer.parseInt(textChannelId.getText().trim());
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(DanmakuMainFrame.this, "Please check your channel_id!",
+					"ERROR_MESSAGE",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		ApiConstant.setServer(host, port, project_name, channel_id);
 		try {
 			stateManager.lock();
 			stateManager.setState(State.STATE_RUNNING);
