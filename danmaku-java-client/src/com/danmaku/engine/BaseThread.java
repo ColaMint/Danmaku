@@ -5,10 +5,13 @@ import java.util.concurrent.Semaphore;
 import com.danmaku.state.StateManager;
 import com.danmaku.state.StateManager.OnStateChangedListener;
 
-/* extend this class can make sure the thread is blocked when danmaku is not running. */
 public abstract class BaseThread extends Thread implements
 		OnStateChangedListener {
 
+	/*
+	 * 信号量sem会根据stateManager的状态来改变计数
+	 * 从而服务于BaseThread::blockIfNotRunning()
+	 */
 	private Semaphore sem;
 	protected StateManager stateManager;
 
@@ -22,7 +25,6 @@ public abstract class BaseThread extends Thread implements
 		try {
 			stateManager.lock();
 			stateManager.addOnStateChangedListener(this);
-			/* init paintSem's state */
 			if (!stateManager
 					.checkState(com.danmaku.state.StateManager.State.STATE_RUNNING))
 				sem.acquire();
@@ -34,8 +36,8 @@ public abstract class BaseThread extends Thread implements
 	}
 
 	/*
-	 * if StateManager's state is not STATE_RUNNING,
-	 * thread will be blocked here.
+	 * 在Thread::run()中循环的开始调用此函数
+	 * 能够使线程在stateManager的状态不是运行状态时阻塞下来
 	 */
 	protected void blockIfNotRunning() throws InterruptedException {
 		sem.acquire();

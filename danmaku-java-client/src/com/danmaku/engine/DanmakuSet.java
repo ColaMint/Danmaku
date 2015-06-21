@@ -26,7 +26,7 @@ public class DanmakuSet extends Lockable implements OnStateChangedListener {
 	}
 
 	public void add(DanmakuModel danmaku) {
-		/* init danmaku's position */
+		/* 初始化弹幕的位置 */
 		danmaku.x = boardWidth + random.nextInt(300);
 		danmaku.y = random.nextInt(boardHeight);
 		if (boardHeight - danmaku.y < danmaku.fontSize) {

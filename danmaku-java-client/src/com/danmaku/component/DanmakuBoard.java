@@ -30,8 +30,7 @@ public class DanmakuBoard extends JDialog {
 	private DanmakuSet danmakuSet;
 
 	/*
-	 * Prevent ceaselessly bringing the dialog to front when native method
-	 * hasn't been done.
+	 * 标记是否调用过JNI函数使窗口透明，防止重复调用
 	 */
 	private boolean hasSetTransparent = false;
 
@@ -48,9 +47,8 @@ public class DanmakuBoard extends JDialog {
 		this.setContentPane(danmakuPanel);
 
 		/*
-		 * Color(1, 1, 1) is a special color the same with the color passed to
-		 * NativeUtil.SetWindowBackgroundTransparent(int R, int G, int B, String
-		 * windowTitle), used to make this dialog transparent.
+		 * Color(1, 1, 1) 是自定义的一个特殊的颜色
+		 * 当调用JNI函数时，与此颜色相同的像素将变成透明
 		 */
 		danmakuPanel.setBackground(new Color(1, 1, 1));
 
@@ -71,7 +69,7 @@ public class DanmakuBoard extends JDialog {
 		}
 	}
 
-	/* Write this class only to make the paint process more smoothly */
+	/* 将绘制过程在DanmakuPanel中实现只是为了使绘制过程比较平滑 */
 	public class DanmakuPanel extends JPanel {
 		private static final long serialVersionUID = 988932744923127264L;
 
@@ -81,7 +79,7 @@ public class DanmakuBoard extends JDialog {
 			if (hasSetTransparent
 					&& stateManager.checkState(State.STATE_RUNNING)) {
 
-				//DanmakuBoard.this.toFront();
+				// DanmakuBoard.this.toFront();
 
 				Graphics2D g2 = (Graphics2D) g;
 
@@ -91,28 +89,25 @@ public class DanmakuBoard extends JDialog {
 					while (it.hasNext()) {
 						DanmakuModel danmaku = it.next();
 
-						/* The final string to be displayed in screen. */
+						/* 屏幕上显示的弹幕文字. */
 						String danmakuStr = danmaku.username + ":" + danmaku.content;
 
-						/* Prepare painting style and draw danmaku. */
+						/* 设置画笔并绘制. */
 						g2.setColor(getColor(danmaku.colorRed, danmaku.colorGreen,
 								danmaku.colorBlue));
 						g2.setFont(new Font("微软雅黑", Font.BOLD, danmaku.fontSize));
 						g2.drawString(danmakuStr, danmaku.x, danmaku.y);
 
-						/* Move danmaku by its speed. */
+						/* 向左移动弹幕坐标. */
 						danmaku.x -= danmaku.speed;
 
-						/* Cal the length in pix of this danmaku. */
+						/* 计算弹幕的长度. */
 						FontRenderContext frc = g2.getFontRenderContext();
 						Rectangle2D rect = g2.getFont()
 								.getStringBounds(danmakuStr, frc);
 						int lengthInPix = (int) rect.getWidth();
 
-						/*
-						 * If this danmaku is out of screen, remove it from
-						 * list.
-						 */
+						/* 若弹幕已经超出屏幕，则删除 */
 						if (danmaku.x < -lengthInPix) {
 							it.remove();
 						}

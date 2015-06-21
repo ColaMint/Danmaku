@@ -5,7 +5,11 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ScreenUtil {
+	private final static Logger logger = LoggerFactory.getLogger(ScreenUtil.class);
 	private static int screenWidth;
 	private static int screenHeight;
 	private static int screenHeightWitoutTaskbar;
@@ -23,10 +27,9 @@ public class ScreenUtil {
 		screenHeightWitoutTaskbar = maximumWindowBounds.height;
 		taskbarHeight = screenHeight - screenHeightWitoutTaskbar;
 
-		LogUtil.printVar("ScreenWidth", screenWidth);
-		LogUtil.printVar("screenHeight", screenHeight);
-		LogUtil.printVar("screenHeightWitoutTaskbar", screenHeightWitoutTaskbar);
-		LogUtil.printVar("TaskbarHeight", taskbarHeight);
+		logger.debug(
+				"Screen Dimension : [ScreenWidth : {}, screenHeight : {}, screenHeightWitoutTaskbar : {}, TaskbarHeight : {}]",
+				screenWidth, screenHeight, screenHeightWitoutTaskbar, taskbarHeight);
 	}
 
 	public static int getScreenWidth() {

@@ -9,12 +9,15 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.danmaku.model.DanmakuModel;
 import com.danmaku.util.HTTPUtil;
 import com.danmaku.util.HTTPUtil.HTTPResponse;
 
 public class DanmakuApi {
+	private final static Logger logger = LoggerFactory.getLogger(DanmakuApi.class);
 
 	public static boolean queryChannel(int channel_id) {
 
@@ -24,13 +27,13 @@ public class DanmakuApi {
 		params.put("channel_id", channel_id + "");
 		try {
 			HTTPResponse response = HTTPUtil.sendGet(url, params);
-			JSONObject json = response.getBodyJSON();
-			if (DanmakuApi.isSuccessful(json)) {
+			if (response.isSuccessful()) {
+				JSONObject json = response.getBodyJSON();
 				return json.getInt("success") == 1;
 			}
 		} catch (IOException | JSONException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug(e.getMessage());
 		}
 
 		return false;
@@ -44,13 +47,13 @@ public class DanmakuApi {
 		params.put("channel_id", channel_id + "");
 		try {
 			HTTPResponse response = HTTPUtil.sendGet(url, params);
-			JSONObject json = response.getBodyJSON();
-			if (DanmakuApi.isSuccessful(json)) {
+			if (response.isSuccessful()) {
+				JSONObject json = response.getBodyJSON();
 				return json.getInt("data");
 			}
 		} catch (IOException | JSONException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug(e.getMessage());
 		}
 
 		return ApiConstant.INVALID_DANMAKU_ID;
@@ -69,8 +72,8 @@ public class DanmakuApi {
 		params.put("max_num", max_num + "");
 		try {
 			HTTPResponse response = HTTPUtil.sendGet(url, params);
-			JSONObject json = response.getBodyJSON();
-			if (DanmakuApi.isSuccessful(json)) {
+			if (response.isSuccessful()) {
+				JSONObject json = response.getBodyJSON();
 				JSONArray danmakus = json.getJSONArray("data");
 				for (int i = 0; i < danmakus.length(); ++i) {
 					danmakuList.add(DanmakuModel.fromJSON(danmakus.getJSONObject(i)));
@@ -78,19 +81,10 @@ public class DanmakuApi {
 			}
 		} catch (IOException | JSONException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug(e.getMessage());
 		}
 
 		return danmakuList;
 	}
 
-	private static boolean isSuccessful(JSONObject json) {
-		try {
-			return json.getInt("success") == 1;
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-	}
 }

@@ -8,9 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import com.danmaku.util.LogUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DanmakuConfManager implements ConfManager {
+	private final static Logger logger = LoggerFactory.getLogger(DanmakuConfManager.class);
 	private static DanmakuConfManager instance;
 
 	private final String PROPERTY_FILE_PATH = "danmaku.properties";
@@ -36,14 +38,13 @@ public class DanmakuConfManager implements ConfManager {
 			pps.load(in);
 			Enumeration<String> enum1 = (Enumeration<String>) pps
 					.propertyNames();
-			LogUtil.printMessage("== Loading danmaku.properties ==");
+			logger.debug("Loading danmaku.properties");
 			while (enum1.hasMoreElements()) {
 				String strKey = enum1.nextElement();
 				String strValue = pps.getProperty(strKey);
 				props.put(strKey, strValue);
-				LogUtil.printVar(strKey, strValue);
+				logger.debug("{} : {}", strKey, strValue);
 			}
-			LogUtil.printMessage("== Done loading danmaku.properties ==");
 			in.close();
 
 		} catch (Exception e) {

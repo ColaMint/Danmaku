@@ -21,31 +21,29 @@ public class ApiConstant {
 	}
 
 	/**
-	 * API return format :{"success" : 1|0, "data" : ... }.
+	 * API 返回数据格式 : {"success" : 1|0, "data" : ... }.
 	 */
 
 	/**
-	 * @description : Test whether ApiConstant.HOST, ApiConstant.PORT,
-	 *              ApiConstant.PROJECT_NAME are correct or not.
+	 * @description : 询问指定频道是否存在.
 	 * @method GET/POST
 	 * @param int channel_id
 	 */
 	public static final String API_QUERY_CHANNEL = "api/query_channel.php";
 
 	/**
-	 * @description : Get The beggest id of all danmakus.
+	 * @description : 获得指定频道最大的弹幕ID
 	 * @method GET
 	 * @param int channel_id
 	 */
 	public static final String API_GET_LATEST_DANMAKU_ID = "api/get_latest_id.php";
 
 	/**
-	 * @description : Fetch danmakus.
+	 * @description : 获取弹幕
 	 * @method GET
 	 * @param int channel_id
-	 * @param int latest_id : Those danmakus whose ID is smaller than
-	 *        this will not return
-	 * @param int max_num : The maximun danmaku number to be returned
+	 * @param int latest_id : 比这个ID小的弹幕将被忽略
+	 * @param int max_num : 返回的弹幕的最大数目
 	 */
 	public static final String API_FETCH_DANMAKU = "api/fetch.php";
 }

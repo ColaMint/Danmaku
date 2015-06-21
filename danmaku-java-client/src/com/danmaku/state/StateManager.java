@@ -48,8 +48,11 @@ public class StateManager extends Lockable {
 		}
 	}
 
-	public static interface OnStateChangedListener {
-		/* Since StateManager is lockable, don't call StateManager::lock() in this function, otherwise it may lead to dead lock.*/
+	public interface OnStateChangedListener {
+		/*
+		 * 由于StateManager是可以被锁住的
+		 * 所以尽量不要在这个函数中调用StateManager::lock()，避免造成死锁
+		 */
 		public void OnStateChanged(State oldState, State newState);
 	}
 }

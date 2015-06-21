@@ -11,8 +11,11 @@ import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HTTPUtil {
+	private final static Logger logger = LoggerFactory.getLogger(HTTPUtil.class);
 
 	public static HTTPResponse sendGet(String url, Map<String, String> params)
 			throws IOException {
@@ -52,16 +55,10 @@ public class HTTPUtil {
 		in.read(body);
 		in.close();
 
-		HTTPResponse response = new HTTPResponse(connection.getResponseCode(),
-				connection.getContentType(), body);
+		HTTPResponse response = new HTTPResponse(connection.getResponseCode(), body);
 
-		LogUtil.printMessage("== HTTP Request Info Start ==");
-		LogUtil.printVar("Mothod", method);
-		LogUtil.printVar("URL", url);
-		LogUtil.printVar("ParamString", paramString);
-		LogUtil.printVar("ResponseCode", response.getCode());
-		LogUtil.printVar("ResponseBody", response.getBodyString());
-		LogUtil.printMessage("== HTTP Request Info End==");
+		logger.debug("HTTPResponse : [Mothod : {}, URL : {}, ParamString : {}, ResponseCode : {}, ResponseBody : {}]",
+				method, url, paramString, response.getCode(), response.getBodyString());
 
 		return response;
 	}
@@ -84,44 +81,36 @@ public class HTTPUtil {
 	}
 
 	public static class HTTPResponse {
-		private int code;
-		private String contentType;
-		private byte[] body;
 
-		public HTTPResponse(int code, String contentType, byte[] body) {
+		private int code;
+		private String strBody;
+		private JSONObject joBody;
+
+		public HTTPResponse(int code, byte[] body) {
 			this.code = code;
-			this.contentType = contentType;
-			this.body = body;
+			this.strBody = new String(body);
+			try {
+				joBody = new JSONObject(strBody);
+			} catch (JSONException e) {
+
+				e.printStackTrace();
+			}
 		}
 
 		public boolean isSuccessful() {
-			return code == 200;
+			return code == 200 && null != joBody;
 		}
 
 		public int getCode() {
 			return code;
 		}
 
-		public String getContentType() {
-			return contentType;
-		}
-
 		public String getBodyString() {
-			return new String(body);
-		}
-
-		public byte[] getBodyBytes() {
-			return body;
+			return strBody;
 		}
 
 		public JSONObject getBodyJSON() {
-			try {
-				return new JSONObject(new String(body));
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return null;
-			}
+			return joBody;
 		}
 	}
 }
