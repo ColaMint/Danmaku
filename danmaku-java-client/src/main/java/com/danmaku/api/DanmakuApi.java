@@ -31,7 +31,7 @@ public class DanmakuApi {
 				JSONObject json = response.getBodyJSON();
 				return json.getInt("success") == 1;
 			}
-		} catch (IOException | JSONException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.debug(e.getMessage());
 		}
@@ -51,7 +51,7 @@ public class DanmakuApi {
 				JSONObject json = response.getBodyJSON();
 				return json.getInt("data");
 			}
-		} catch (IOException | JSONException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.debug(e.getMessage());
 		}
@@ -79,7 +79,7 @@ public class DanmakuApi {
 					danmakuList.add(DanmakuModel.fromJSON(danmakus.getJSONObject(i)));
 				}
 			}
-		} catch (IOException | JSONException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.debug(e.getMessage());
 		}

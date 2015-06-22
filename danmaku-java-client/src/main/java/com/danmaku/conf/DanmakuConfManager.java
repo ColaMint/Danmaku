@@ -1,7 +1,5 @@
 package com.danmaku.conf;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -31,9 +29,9 @@ public class DanmakuConfManager implements ConfManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void loadProperties() {
+	private void loadProperties() {
 		try {
-			InputStream in = new FileInputStream(new File(PROPERTY_FILE_PATH));
+			InputStream in = ClassLoader.getSystemResource(PROPERTY_FILE_PATH).openStream();
 			Properties pps = new Properties();
 			pps.load(in);
 			Enumeration<String> enum1 = (Enumeration<String>) pps

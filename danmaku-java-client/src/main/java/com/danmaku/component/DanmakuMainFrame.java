@@ -66,7 +66,7 @@ public class DanmakuMainFrame extends JFrame {
 		this.addWindowListener(new WindowAdapter() {
 			public void windowDeactivated(WindowEvent e) {
 				if (!stateManager.checkState(State.STATE_STOP)) {
-
+					
 				}
 			}
 		});

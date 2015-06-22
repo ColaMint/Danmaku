@@ -1,12 +1,14 @@
 package com.danmaku.util;
 
+import java.io.File;
+
 public class NativeUtil {
 
 	static {
 		if ("64".equals(System.getProperty("sun.arch.data.model"))) {
-			System.loadLibrary("DanmakuNative_x64");
+			System.load(new File("DanmakuNative_x64.dll").getAbsolutePath());
 		} else {
-			System.loadLibrary("DanmakuNative_x86");
+			System.load(new File("DanmakuNative_x86.dll").getAbsolutePath());
 		}
 	}
 
