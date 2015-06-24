@@ -13,7 +13,7 @@ public class DanmakuConfManager implements ConfManager {
 	private final static Logger logger = LoggerFactory.getLogger(DanmakuConfManager.class);
 	private static DanmakuConfManager instance;
 
-	private final String PROPERTY_FILE = "danmaku.properties";
+	private final String PROPERTY_FILE = "server.properties";
 	private Map<String, String> props;
 
 	public synchronized static DanmakuConfManager getInstance() {
@@ -36,7 +36,7 @@ public class DanmakuConfManager implements ConfManager {
 			pps.load(in);
 			Enumeration<String> enum1 = (Enumeration<String>) pps
 					.propertyNames();
-			logger.info("Loading danmaku.properties");
+			logger.info("Loading server.properties");
 			while (enum1.hasMoreElements()) {
 				String strKey = enum1.nextElement();
 				String strValue = pps.getProperty(strKey);
