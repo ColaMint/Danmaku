@@ -5,7 +5,7 @@
 	class ApiClearTable extends ApiBase {
 			
 		public function __construct(){
-			parent::__construct(self::API_TYPE_GET);
+			parent::__construct(self::API_TYPE_GET_OR_POST);
 		}	
 
 		private $mandatory = array('channel_id');

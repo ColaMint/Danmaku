@@ -5,7 +5,7 @@
 	class ApiQueryChannel extends ApiBase{
 		
 		public function __construct(){
-			parent::__construct(self::API_TYPE_GET_OR_POST);
+			parent::__construct(self::API_TYPE_GET);
 		}
 
 		private $mandatory = array('channel_id');
