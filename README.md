@@ -9,10 +9,11 @@ Danmaku是一款弹幕软件，可用于举办活动时，在Windows系统的电
 ###Part-One:danmaku-php-server
 * 导入数据库脚本:/danmaku-php-server/danmaku.sql
 ```
-    脚本中创建表的语句：
+    其中弹幕表的结构：
 
     CREATE TABLE `dmk_danmaku` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
+        `channel_id` int(11) unsigned NOT NULL,
         `userid` varchar(64) NOT NULL,
         `username` varchar(32) NOT NULL,
         `content` text NOT NULL,
@@ -36,15 +37,18 @@ Danmaku是一款弹幕软件，可用于举办活动时，在Windows系统的电
   );
 ```
 
-###Part-Two:danmaku-java-client
-* 导入项目到eclipse
-* 修改服务器参数的配置文件（也可在运行程序时填写）:/danmaku-java-client/danmaku.properties
+###Part-Two:danmaku-java-clien
+* 在pom.xml所在文件夹下使用maven进行打包，打包后的文件在target文件夹下 ： 
+```
+mvn clean package
+```
+* 修改服务器参数的配置文件（也可在运行程序时填写）: target/danmaku.properties
 ```
 danmaku.host=localhost                                                      
 danmaku.port=80
 danmaku.project_name=danmaku-php-server
 ```
-* 建议试运行后导出jar放在一个文件夹，并把danmaku.properties、DanmakuNative_x86.dll、DanmakuNative_x64.dll放在该文件夹中
+* 运行target/launch.bat即可运行客户端
 
 ###Part-Three:根据PHP端提供的API开发弹幕发送程序
 #####API 返回的数据格式 ( json )
@@ -54,11 +58,18 @@ danmaku.project_name=danmaku-php-server
 
     
 #####API 列表 ：
+*   创建频道
+
+        URL                  :  http://host:port/danmaku-php-server/api/create_channel.php
+        Method               :  POST
+        Mandotary Params     :  channel_name string
+        Return Data          :  channel_id
 *   添加弹幕 
 
         URL                  :  http://host:port/danmaku-php-server/api/add.php
         Method               :  POST
         Mandotary Params     ： userid      string
+                                channel_id  int
                                 username    string
                                 content     string
         Not Mandotary Params ： font_size   int     (default : 40)
@@ -70,23 +81,27 @@ danmaku.project_name=danmaku-php-server
 
         URL                  :  http://host:port/danmaku-php-server/api/get_latest_id.php
         Method               :  GET
+        Mandotary Params     ： channel_id  int
         Return Data          :  最新弹幕ID  int
 *   获取弹幕
 
         URL                  :  http://host:port/danmaku-php-server/api/fetch.php
         Method               :  GET
-        Mandotary Params     ： latest_id   int
+        Mandotary Params     ： channel_id  int
+                                latest_id   int
         Not Mandotary Params ： max_num     int     (default : 50)
         Return Data          :  返回ID大于latest_id中id较小的弹幕数据,最多返回maxnum条数据
 *   清空所有弹幕
 
         URL                  :  http://host:port/danmaku-php-server/api/clear_table.php
-        Method               :  POST
+        Method               :  GET/POST
+        Mandotary Params     ： channel_id  int
         Return Data          :  NULL
-*   测试服务器是否可以提供服务
+*   查询指定频道是否存在
 
-        URL                  :  http://host:port/danmaku-php-server/api/test_server.php
+        URL                  :  http://host:port/danmaku-php-server/api/quert_channel.php
         Method               :  GET
+        Mandotary Params     ： channel_id  int
         Return Data          :  NULL
 
 ###Part-Four:部署弹幕发送端于微信公众号的示例程序 /danmaku-php-server/weixin
@@ -95,9 +110,10 @@ danmaku.project_name=danmaku-php-server
     [详细过程点此查看](https://github.com/meso5533/Danmaku/tree/master/danmaku-php-server/weixin)
 *   修改微信公众号参数：/danmaku-php-server/weixin/wechat.php
 ```php
-   $options = array(    'token' => 'danmaku',
+    $options = array(    'token' => 'danmaku',
                         'appid' => 'xxx',
                         'appsecret' => 'xxx');
+    $channel_id = [你创建的频道ID];
 ```
 *   在微信公众号后台配置接口信息
         
