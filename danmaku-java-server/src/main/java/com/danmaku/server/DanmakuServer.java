@@ -10,6 +10,7 @@ import com.danmaku.conf.DanmakuConfManager;
 
 public class DanmakuServer {
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args) throws IOException {
 		ConfManager conf = DanmakuConfManager.getInstance();
 
