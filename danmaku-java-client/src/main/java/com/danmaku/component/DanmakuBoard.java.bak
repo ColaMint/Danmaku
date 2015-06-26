@@ -30,7 +30,7 @@ public class DanmakuBoard extends JDialog {
 	private DanmakuSet danmakuSet;
 
 	/*
-	 * æ ‡è®°æ˜¯å¦è°ƒç”¨è¿‡JNIå‡½æ•°ä½¿çª—å£é€æ˜ï¼Œé˜²æ­¢é‡å¤è°ƒç”¨
+	 * ±ê¼ÇÊÇ·ñµ÷ÓÃ¹ıJNIº¯ÊıÊ¹´°¿ÚÍ¸Ã÷£¬·ÀÖ¹ÖØ¸´µ÷ÓÃ
 	 */
 	private boolean hasSetTransparent = false;
 
@@ -47,8 +47,8 @@ public class DanmakuBoard extends JDialog {
 		this.setContentPane(danmakuPanel);
 
 		/*
-		 * Color(1, 1, 1) æ˜¯è‡ªå®šä¹‰çš„ä¸€ä¸ªç‰¹æ®Šçš„é¢œè‰²
-		 * å½“è°ƒç”¨JNIå‡½æ•°æ—¶ï¼Œä¸æ­¤é¢œè‰²ç›¸åŒçš„åƒç´ å°†å˜æˆé€æ˜
+		 * Color(1, 1, 1) ÊÇ×Ô¶¨ÒåµÄÒ»¸öÌØÊâµÄÑÕÉ«
+		 * µ±µ÷ÓÃJNIº¯ÊıÊ±£¬Óë´ËÑÕÉ«ÏàÍ¬µÄÏñËØ½«±ä³ÉÍ¸Ã÷
 		 */
 		danmakuPanel.setBackground(new Color(1, 1, 1));
 
@@ -69,7 +69,7 @@ public class DanmakuBoard extends JDialog {
 		}
 	}
 
-	/* å°†ç»˜åˆ¶è¿‡ç¨‹åœ¨DanmakuPanelä¸­å®ç°åªæ˜¯ä¸ºäº†ä½¿ç»˜åˆ¶è¿‡ç¨‹æ¯”è¾ƒå¹³æ»‘ */
+	/* ½«»æÖÆ¹ı³ÌÔÚDanmakuPanelÖĞÊµÏÖÖ»ÊÇÎªÁËÊ¹»æÖÆ¹ı³Ì±È½ÏÆ½»¬ */
 	public class DanmakuPanel extends JPanel {
 		private static final long serialVersionUID = 988932744923127264L;
 
@@ -89,25 +89,25 @@ public class DanmakuBoard extends JDialog {
 					while (it.hasNext()) {
 						DanmakuModel danmaku = it.next();
 
-						/* å±å¹•ä¸Šæ˜¾ç¤ºçš„å¼¹å¹•æ–‡å­—. */
+						/* ÆÁÄ»ÉÏÏÔÊ¾µÄµ¯Ä»ÎÄ×Ö. */
 						String danmakuStr = danmaku.username + ":" + danmaku.content;
 
-						/* è®¾ç½®ç”»ç¬”å¹¶ç»˜åˆ¶. */
+						/* ÉèÖÃ»­±Ê²¢»æÖÆ. */
 						g2.setColor(getColor(danmaku.colorRed, danmaku.colorGreen,
 								danmaku.colorBlue));
-						g2.setFont(new Font("å¾®è½¯é›…é»‘", Font.BOLD, danmaku.fontSize));
+						g2.setFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, danmaku.fontSize));
 						g2.drawString(danmakuStr, danmaku.x, danmaku.y);
 
-						/* å‘å·¦ç§»åŠ¨å¼¹å¹•åæ ‡. */
+						/* Ïò×óÒÆ¶¯µ¯Ä»×ø±ê. */
 						danmaku.x -= danmaku.speed;
 
-						/* è®¡ç®—å¼¹å¹•çš„é•¿åº¦. */
+						/* ¼ÆËãµ¯Ä»µÄ³¤¶È. */
 						FontRenderContext frc = g2.getFontRenderContext();
 						Rectangle2D rect = g2.getFont()
 								.getStringBounds(danmakuStr, frc);
 						int lengthInPix = (int) rect.getWidth();
 
-						/* è‹¥å¼¹å¹•å·²ç»è¶…å‡ºå±å¹•ï¼Œåˆ™åˆ é™¤ */
+						/* Èôµ¯Ä»ÒÑ¾­³¬³öÆÁÄ»£¬ÔòÉ¾³ı */
 						if (danmaku.x < -lengthInPix) {
 							it.remove();
 						}

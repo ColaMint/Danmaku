@@ -1,1 +1,4 @@
-java -jar danmaku-java-server-1.0-SNAPSHOT.jar
+SET PROJECT_HOME=.
+SET MAIN_CLASS=com.danmaku.server.DanmakuServer
+SET LIB_OPTS=%PROJECT_HOME%;%PROJECT_HOME%/lib;%PROJECT_HOME%/lib/*;%PROJECT_HOME%/classes;
+"%JAVA_HOME%\bin\java" -cp %LIB_OPTS% %MAIN_CLASS%

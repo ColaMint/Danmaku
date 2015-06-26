@@ -9,12 +9,11 @@ public abstract class BaseThread extends Thread implements
 		OnStateChangedListener {
 
 	/*
-	 * 信号量sem会根据stateManager的状态来改变计数
-	 * 从而服务于BaseThread::blockIfNotRunning()
+	 * 淇″彿閲弒em浼氭牴鎹畇tateManager鐨勭姸鎬佹潵鏀瑰彉璁℃暟
+	 * 浠庤�屾湇鍔′簬BaseThread::blockIfNotRunning()
 	 */
 	private Semaphore sem;
 	protected StateManager stateManager;
-	private boolean isInterrupted = false;
 
 	public BaseThread(StateManager stateManager) {
 		this.stateManager = stateManager;
@@ -37,8 +36,8 @@ public abstract class BaseThread extends Thread implements
 	}
 
 	/*
-	 * 在Thread::run()中循环的开始调用此函数
-	 * 能够使线程在stateManager的状态不是运行状态时阻塞下来
+	 * 鍦═hread::run()涓惊鐜殑寮�濮嬭皟鐢ㄦ鍑芥暟
+	 * 鑳藉浣跨嚎绋嬪湪stateManager鐨勭姸鎬佷笉鏄繍琛岀姸鎬佹椂闃诲涓嬫潵
 	 */
 	protected void blockIfNotRunning() throws InterruptedException {
 		sem.acquire();

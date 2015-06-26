@@ -1,11 +1,7 @@
 package com.danmaku.model;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.zstacks.znet.Message;
 
 public class DanmakuModel extends Object {
 	public String userid;
@@ -33,26 +29,6 @@ public class DanmakuModel extends Object {
 		return danmaku;
 	}
 
-	public static DanmakuModel fromMessage(Message msg) throws JSONException, NumberFormatException,
-			UnsupportedEncodingException {
-		String bodyString = msg.getBodyString();
-		if (bodyString != null && bodyString.length() > 0) {
-			JSONObject jo = new JSONObject(bodyString);
-			return DanmakuModel.fromJSON(jo);
-		} else {
-			DanmakuModel danmaku = new DanmakuModel();
-			danmaku.userid = msg.getHeadOrParam("userid");
-			danmaku.username = msg.getHeadOrParam("username");
-			danmaku.content = msg.getHeadOrParam("content");
-			danmaku.fontSize = Integer.parseInt(msg.getHeadOrParam("font_size", "40"));
-			danmaku.colorRed = Integer.parseInt(msg.getHeadOrParam("color_r", "0"));
-			danmaku.colorGreen = Integer.parseInt(msg.getHeadOrParam("color_g", "0"));
-			danmaku.colorBlue = Integer.parseInt(msg.getHeadOrParam("color_b", "0"));
-			danmaku.speed = Integer.parseInt(msg.getHeadOrParam("speed", "5"));
-			return danmaku;
-		}
-	}
-
 	public JSONObject toJSON() {
 		JSONObject jo = new JSONObject();
 
@@ -67,5 +43,4 @@ public class DanmakuModel extends Object {
 
 		return jo;
 	}
-
 }

@@ -12,7 +12,7 @@ public class NativeUtil {
 		}
 	}
 
-	/* Color£¨R, G, B£© define the specific background pixel to be transparent */
+	/* Colorï¼ˆR, G, Bï¼‰ define the specific background pixel to be transparent */
 	public static native void SetWindowBackgroundTransparent(int R, int G,
 			int B, String windowTitle);
 

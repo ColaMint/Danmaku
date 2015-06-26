@@ -50,8 +50,8 @@ public class StateManager extends Lockable {
 
 	public interface OnStateChangedListener {
 		/*
-		 * ÓÉÓÚStateManagerÊÇ¿ÉÒÔ±»Ëø×¡µÄ
-		 * ËùÒÔ¾¡Á¿²»ÒªÔÚÕâ¸öº¯ÊıÖĞµ÷ÓÃStateManager::lock()£¬±ÜÃâÔì³ÉËÀËø
+		 * ç”±äºStateManageræ˜¯å¯ä»¥è¢«é”ä½çš„
+		 * æ‰€ä»¥å°½é‡ä¸è¦åœ¨è¿™ä¸ªå‡½æ•°ä¸­è°ƒç”¨StateManager::lock()ï¼Œé¿å…é€ æˆæ­»é”
 		 */
 		public void OnStateChanged(State oldState, State newState);
 	}

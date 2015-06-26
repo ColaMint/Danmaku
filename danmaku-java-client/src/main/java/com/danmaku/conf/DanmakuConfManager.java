@@ -41,7 +41,7 @@ public class DanmakuConfManager implements ConfManager {
 				String strKey = enum1.nextElement();
 				String strValue = pps.getProperty(strKey);
 				props.put(strKey, strValue);
-				logger.debug("{} : {}", strKey, strValue);
+				logger.info("{} : {}", strKey, strValue);
 			}
 			in.close();
 

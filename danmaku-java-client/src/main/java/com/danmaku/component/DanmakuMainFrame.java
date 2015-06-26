@@ -2,21 +2,23 @@ package com.danmaku.component;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import com.danmaku.api.ApiConstant;
 import com.danmaku.conf.ConfManager;
 import com.danmaku.conf.DanmakuConfManager;
 import com.danmaku.state.StateManager;
 import com.danmaku.state.StateManager.OnStateChangedListener;
 import com.danmaku.state.StateManager.State;
+import com.danmaku.zbus.DanmakuZbus;
 
 public class DanmakuMainFrame extends JFrame {
 
@@ -25,17 +27,17 @@ public class DanmakuMainFrame extends JFrame {
 	/* Frame Params */
 	private final String DANMAKU_FRAME_TITLE = "Danmaku";
 	private final int DANMAKU_FRAME_WIDTH = 250;
-	private final int DANMAKU_FRAME_HEIGHT = 280;
+	private final int DANMAKU_FRAME_HEIGHT = 270;
 
 	/* Frame Component */
 	private JLabel labelHost;
 	private JLabel labelPort;
-	private JLabel labelProjectName;
-	private JLabel labelChannelId;
+	private JLabel labelMq;
+	private JLabel labelTopic;
 	private JTextField textHost;
 	private JTextField textPort;
-	private JTextField textProjectName;
-	private JTextField textChannelId;
+	private JTextField textMq;
+	private JTextField textTopic;
 	private JButton btnStart;
 	private JButton btnPause;
 	private JButton btnStop;
@@ -77,24 +79,27 @@ public class DanmakuMainFrame extends JFrame {
 					btnStart.setEnabled(true);
 					btnPause.setEnabled(false);
 					btnStop.setEnabled(false);
+					setEnableAllTextField(true);
 				}
 					break;
 				case STATE_RUNNING: {
 					btnStart.setEnabled(false);
 					btnPause.setEnabled(true);
 					btnStop.setEnabled(false);
+					setEnableAllTextField(false);
 				}
 					break;
 				case STATE_PAUSE: {
 					btnStart.setEnabled(true);
 					btnPause.setEnabled(false);
 					btnStop.setEnabled(true);
+					setEnableAllTextField(false);
 				}
 					break;
 				}
 
 				if (oldState == State.STATE_RUNNING && newState == State.STATE_STOP) {
-					JOptionPane.showMessageDialog(DanmakuMainFrame.this, "Please check your params!",
+					JOptionPane.showMessageDialog(DanmakuMainFrame.this, "与服务器的连接发生错误，请重新启动或检查您的参数！",
 							"ERROR_MESSAGE",
 							JOptionPane.ERROR_MESSAGE);
 				}
@@ -116,58 +121,62 @@ public class DanmakuMainFrame extends JFrame {
 		/* init labelHost */
 		labelHost = new JLabel();
 		labelHost.setText("Host:");
-		labelHost.setBounds(40, 20, 75, 25);
+		labelHost.setBounds(10, 20, 75, 25);
+		labelHost.setHorizontalAlignment(SwingConstants.RIGHT);
 		this.add(labelHost);
 
 		/* init labelPort */
 		labelPort = new JLabel();
 		labelPort.setText("Post:");
-		labelPort.setBounds(40, 65, 75, 25);
+		labelPort.setBounds(10, 65, 75, 25);
+		labelPort.setHorizontalAlignment(SwingConstants.RIGHT);
 		this.add(labelPort);
 
-		/* init labelProjectName */
-		labelProjectName = new JLabel();
-		labelProjectName.setText("Project:");
-		labelProjectName.setBounds(25, 110, 75, 25);
-		this.add(labelProjectName);
+		/* init labelMq */
+		labelMq = new JLabel();
+		labelMq.setText("MQ:");
+		labelMq.setBounds(10, 110, 75, 25);
+		labelMq.setHorizontalAlignment(SwingConstants.RIGHT);
+		this.add(labelMq);
 
-		/* init labelChannelId */
-		labelChannelId = new JLabel();
-		labelChannelId.setText("Channel ID:");
-		labelChannelId.setBounds(6, 155, 75, 25);
-		this.add(labelChannelId);
+		/* init labelTopic */
+		labelTopic = new JLabel();
+		labelTopic.setText("Topic:");
+		labelTopic.setBounds(10, 155, 75, 25);
+		labelTopic.setHorizontalAlignment(SwingConstants.RIGHT);
+		this.add(labelTopic);
 
 		/* init textHost */
 		textHost = new JTextField();
-		textHost.setText(conf.getProperty("danmaku.host", ApiConstant.HOST));
-		textHost.setBounds(80, 20, 120, 25);
+		textHost.setText(conf.getProperty("server.host", DanmakuZbus.HOST));
+		textHost.setBounds(100, 20, 120, 25);
 		textHost.setBorder(BorderFactory.createCompoundBorder(
 				new EtchedBorder(), new EmptyBorder(0, 5, 0, 5)));
 		this.add(textHost);
 
 		/* init textPort */
 		textPort = new JTextField();
-		textPort.setText(conf.getProperty("danmaku.port", ApiConstant.PORT));
-		textPort.setBounds(80, 65, 120, 25);
+		textPort.setText(conf.getProperty("server.port", "" + DanmakuZbus.PORT));
+		textPort.setBounds(100, 65, 120, 25);
 		textPort.setBorder(BorderFactory.createCompoundBorder(
 				new EtchedBorder(), new EmptyBorder(0, 5, 0, 5)));
 		this.add(textPort);
 
-		/* init textProjectName */
-		textProjectName = new JTextField();
-		textProjectName.setText(conf.getProperty("danmaku.project_name", ApiConstant.PROJECT_NAME));
-		textProjectName.setBounds(80, 110, 120, 25);
-		textProjectName.setBorder(BorderFactory.createCompoundBorder(
+		/* init textMq */
+		textMq = new JTextField();
+		textMq.setText(conf.getProperty("server.mq", "" + DanmakuZbus.MQ));
+		textMq.setBounds(100, 110, 120, 25);
+		textMq.setBorder(BorderFactory.createCompoundBorder(
 				new EtchedBorder(), new EmptyBorder(0, 5, 0, 5)));
-		this.add(textProjectName);
+		this.add(textMq);
 
-		/* init textChannelId */
-		textChannelId = new JTextField();
-		textChannelId.setText(conf.getProperty("danmaku.channel_id", ApiConstant.PROJECT_NAME));
-		textChannelId.setBounds(80, 155, 120, 25);
-		textChannelId.setBorder(BorderFactory.createCompoundBorder(
+		/* init textTopic */
+		textTopic = new JTextField();
+		textTopic.setText(conf.getProperty("server.topic", DanmakuZbus.TOPIC));
+		textTopic.setBounds(100, 155, 120, 25);
+		textTopic.setBorder(BorderFactory.createCompoundBorder(
 				new EtchedBorder(), new EmptyBorder(0, 5, 0, 5)));
-		this.add(textChannelId);
+		this.add(textTopic);
 
 		/* init btnStart */
 		btnStart = new JButton();
@@ -213,22 +222,15 @@ public class DanmakuMainFrame extends JFrame {
 	}
 
 	private void onStartBtnClicked() {
-		String host = textHost.getText().trim();
-		String port = textPort.getText().trim();
-		String project_name = textProjectName.getText().trim();
-		int channel_id;
+		if (stateManager.checkState(State.STATE_STOP)) {
+			String host = textHost.getText().trim();
+			String port = textPort.getText().trim();
+			String mq = textMq.getText().trim();
+			String topic = textTopic.getText().trim();
 
-		try {
-			channel_id = Integer.parseInt(textChannelId.getText().trim());
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(DanmakuMainFrame.this, "Please check your channel_id!",
-					"ERROR_MESSAGE",
-					JOptionPane.ERROR_MESSAGE);
-			return;
+			DanmakuZbus.setZbusConfig(host, port, mq, topic);
 		}
 
-		ApiConstant.setServer(host, port, project_name, channel_id);
 		try {
 			stateManager.lock();
 			stateManager.setState(State.STATE_RUNNING);
@@ -260,4 +262,12 @@ public class DanmakuMainFrame extends JFrame {
 			e.printStackTrace();
 		}
 	}
+
+	private void setEnableAllTextField(boolean enable) {
+		textHost.setEnabled(enable);
+		textPort.setEnabled(enable);
+		textMq.setEnabled(enable);
+		textTopic.setEnabled(enable);
+	}
+
 }
