@@ -19,10 +19,13 @@ import com.danmaku.model.DanmakuModel;
 
 public class DanmakuFetcher extends MqAdmin implements Closeable {
 	private final static Logger logger = LoggerFactory.getLogger(DanmakuFetcher.class);
-	private boolean isFetching = false;
+
 	private String topic;
 	private RemotingClient client;
+	private boolean isFetching = false;
+
 	private List<OnFetchListener> listeners = new ArrayList<OnFetchListener>();
+
 	private ExecutorService pool = Executors.newSingleThreadExecutor();
 
 	public DanmakuFetcher(MqConfig config) {
@@ -87,6 +90,7 @@ public class DanmakuFetcher extends MqAdmin implements Closeable {
 			return;
 		}
 		if (null == danmakuMsg) {
+			// 超时重新获取
 			return;
 		} else {
 			logger.info(danmakuMsg.toString());
@@ -140,6 +144,7 @@ public class DanmakuFetcher extends MqAdmin implements Closeable {
 		// TODO Auto-generated method stub
 		if (this.client != null) {
 			this.client.close();
+			this.client = null;
 		}
 	}
 }

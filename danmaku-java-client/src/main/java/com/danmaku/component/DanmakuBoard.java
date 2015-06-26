@@ -11,9 +11,9 @@ import java.util.Iterator;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import com.danmaku.engine.DanmakuEngine;
-import com.danmaku.engine.DanmakuSet;
+import com.danmaku.engine.Engine;
 import com.danmaku.model.DanmakuModel;
+import com.danmaku.model.DanmakuSet;
 import com.danmaku.state.StateManager;
 import com.danmaku.state.StateManager.State;
 import com.danmaku.util.NativeUtil;
@@ -26,7 +26,7 @@ public class DanmakuBoard extends JDialog {
 
 	private JPanel danmakuPanel = new DanmakuPanel();
 	private StateManager stateManager;
-	private DanmakuEngine engine;
+	private Engine engine;
 	private DanmakuSet danmakuSet;
 
 	/*
@@ -52,7 +52,7 @@ public class DanmakuBoard extends JDialog {
 		 */
 		danmakuPanel.setBackground(new Color(1, 1, 1));
 
-		engine = new DanmakuEngine(stateManager, this);
+		engine = new Engine(stateManager, this);
 		danmakuSet = engine.getDanmakuSet();
 
 		engine.run();

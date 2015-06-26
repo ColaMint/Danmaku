@@ -1,11 +1,10 @@
-package com.danmaku.engine;
+package com.danmaku.model;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import com.danmaku.common.Lockable;
-import com.danmaku.model.DanmakuModel;
 import com.danmaku.state.StateManager;
 import com.danmaku.state.StateManager.OnStateChangedListener;
 import com.danmaku.state.StateManager.State;

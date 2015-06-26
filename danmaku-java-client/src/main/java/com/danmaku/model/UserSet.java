@@ -1,4 +1,4 @@
-package com.danmaku.engine;
+package com.danmaku.model;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.danmaku.common.Lockable;
-import com.danmaku.model.UserModel;
 import com.danmaku.state.StateManager;
 import com.danmaku.state.StateManager.OnStateChangedListener;
 import com.danmaku.state.StateManager.State;

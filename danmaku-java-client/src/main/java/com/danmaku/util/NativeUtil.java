@@ -12,7 +12,7 @@ public class NativeUtil {
 		}
 	}
 
-	/* Color（R, G, B） define the specific background pixel to be transparent */
+	/* 把窗口背景中颜色为 Color（R, G, B）的像素点设置为透明、置顶 */
 	public static native void SetWindowBackgroundTransparent(int R, int G,
 			int B, String windowTitle);
 

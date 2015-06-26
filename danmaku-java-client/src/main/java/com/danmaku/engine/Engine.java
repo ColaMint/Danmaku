@@ -2,22 +2,24 @@ package com.danmaku.engine;
 
 import java.awt.Component;
 
+import com.danmaku.model.DanmakuSet;
+import com.danmaku.model.UserSet;
 import com.danmaku.state.StateManager;
 
-public class DanmakuEngine {
+public class Engine {
 
-	private DanmakuPaintThread paintThread;
-	private DanmakuFetchThread fetchThread;
+	private PaintThread paintThread;
+	private FetchThread fetchThread;
 	private DanmakuSet danmakuSet;
 	private UserSet userSet;
 
 	private boolean hasStart = false;
 
-	public DanmakuEngine(StateManager stateManager, Component paintBoard) {
-		paintThread = new DanmakuPaintThread(stateManager, paintBoard);
+	public Engine(StateManager stateManager, Component paintBoard) {
+		paintThread = new PaintThread(stateManager, paintBoard);
 		userSet = new UserSet(stateManager);
 		danmakuSet = new DanmakuSet(stateManager, paintBoard.getWidth(), paintBoard.getHeight());
-		fetchThread = new DanmakuFetchThread(stateManager, danmakuSet, userSet);
+		fetchThread = new FetchThread(stateManager, danmakuSet, userSet);
 
 	}
 

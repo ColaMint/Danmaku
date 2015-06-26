@@ -7,13 +7,15 @@ import java.util.concurrent.BlockingQueue;
 import org.json.JSONException;
 
 import com.danmaku.model.DanmakuModel;
+import com.danmaku.model.DanmakuSet;
+import com.danmaku.model.UserSet;
 import com.danmaku.state.StateManager;
 import com.danmaku.state.StateManager.OnStateChangedListener;
 import com.danmaku.zbus.DanmakuFetcher;
 import com.danmaku.zbus.DanmakuFetcher.OnFetchListener;
 import com.danmaku.zbus.DanmakuZbus;
 
-public class DanmakuFetchThread extends BaseThread implements OnStateChangedListener, OnFetchListener {
+public class FetchThread extends BaseThread implements OnStateChangedListener, OnFetchListener {
 
 	private DanmakuSet danmakuSet;
 	private UserSet userSet;
@@ -24,7 +26,7 @@ public class DanmakuFetchThread extends BaseThread implements OnStateChangedList
 	private DanmakuFetcher fetcher;
 	private boolean acceptDanmaku = false;
 
-	public DanmakuFetchThread(StateManager stateManager, DanmakuSet danmakuSet, UserSet userSet) {
+	public FetchThread(StateManager stateManager, DanmakuSet danmakuSet, UserSet userSet) {
 		super(stateManager);
 		this.stateManager = stateManager;
 		this.danmakuSet = danmakuSet;
@@ -46,7 +48,7 @@ public class DanmakuFetchThread extends BaseThread implements OnStateChangedList
 					if (fetcher == null) {
 						try {
 							fetcher = DanmakuZbus.createFetcher(stateManager);
-							fetcher.addOnFetchListener(DanmakuFetchThread.this);
+							fetcher.addOnFetchListener(FetchThread.this);
 							fetcher.startFetch();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block

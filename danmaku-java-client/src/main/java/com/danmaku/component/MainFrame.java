@@ -14,13 +14,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import com.danmaku.conf.ConfManager;
-import com.danmaku.conf.DanmakuConfManager;
+import com.danmaku.conf.ConfManager;
 import com.danmaku.state.StateManager;
 import com.danmaku.state.StateManager.OnStateChangedListener;
 import com.danmaku.state.StateManager.State;
 import com.danmaku.zbus.DanmakuZbus;
 
-public class DanmakuMainFrame extends JFrame {
+public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,7 @@ public class DanmakuMainFrame extends JFrame {
 	/* DanmakuBoard */
 	private DanmakuBoard danmakuBoard;
 
-	public DanmakuMainFrame() {
+	public MainFrame() {
 		initFrameParams();
 		initStateManager();
 		initDanmakuBoard();
@@ -99,7 +99,7 @@ public class DanmakuMainFrame extends JFrame {
 				}
 
 				if (oldState == State.STATE_RUNNING && newState == State.STATE_STOP) {
-					JOptionPane.showMessageDialog(DanmakuMainFrame.this, "与服务器的连接发生错误，请重新启动或检查您的参数！",
+					JOptionPane.showMessageDialog(MainFrame.this, "与服务器的连接发生错误，请重新启动或检查您的参数！",
 							"ERROR_MESSAGE",
 							JOptionPane.ERROR_MESSAGE);
 				}
@@ -116,7 +116,7 @@ public class DanmakuMainFrame extends JFrame {
 	}
 
 	private void initComponent() {
-		ConfManager conf = DanmakuConfManager.getInstance();
+		ConfManager conf = ConfManager.getInstance();
 
 		/* init labelHost */
 		labelHost = new JLabel();

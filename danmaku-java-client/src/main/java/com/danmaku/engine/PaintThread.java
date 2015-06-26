@@ -4,12 +4,12 @@ import java.awt.Component;
 
 import com.danmaku.state.StateManager;
 
-public class DanmakuPaintThread extends BaseThread {
+public class PaintThread extends BaseThread {
 
 	private Component paintBoard;
 	private static final int PAINT_INTERVAL = 30;
 
-	public DanmakuPaintThread(StateManager stateManager, Component paintBoard) {
+	public PaintThread(StateManager stateManager, Component paintBoard) {
 		super(stateManager);
 		this.paintBoard = paintBoard;
 	}
