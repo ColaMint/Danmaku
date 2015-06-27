@@ -60,21 +60,25 @@ server.topic=danmaku    #订阅的主题
 
 ###Part-Four:部署弹幕发送端于微信公众号的示例程序 /danmaku-php-server/weixin
 *   使用composer下载php依赖库wechat-php-sdk
-   
-    [详细过程点此查看](https://github.com/meso5533/Danmaku/tree/master/danmaku-php-server/weixin)
-*   修改微信公众号参数：/danmaku-php-server/weixin/wechat.php
-```php
-    $options        = array(    'token'             => 'danmaku',
-                                'appid'             => 'xxx',
-                                'appsecret'         => 'xxx');
-    $zbus_config    = array(    'host'              => 'zbus服务器IP',
-                                'port'              => 'zbus服务器端口',
-                                'admin_token'       => '进行管理员操作的口令',
-                                'mq'                => '队列名',
-                                'mq_access_token'   => '访问队列的口令',
-                                'topic'             => '发布订阅的主题');
     
-```
+    *   安装composer
+            curl -sS https://getcomposer.org/installer | php
+    *   运行composer来下载依赖包
+     
+            php composer.phar install
+
+*   修改微信公众号参数：/danmaku-php-server/weixin/wechat.php
+        $options        = array(    'token'             => 'danmaku',
+                                    'appid'             => 'xxx',
+                                    'appsecret'         => 'xxx');
+        $zbus_config    = array(    'host'              => 'zbus服务器IP',
+                                    'port'              => 'zbus服务器端口',
+                                    'admin_token'       => '进行管理员操作的口令',
+                                    'mq'                => '队列名',
+                                    'mq_access_token'   => '访问队列的口令',
+                                    'topic'             => '发布订阅的主题');
+    
+
 *   在微信公众号后台配置接口信息
         
         URL：http://host:port/danmaku-php-server/weixin/wechat.php
