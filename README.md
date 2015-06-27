@@ -6,7 +6,7 @@ Danmaku是一款弹幕软件，可用于举办活动时，在Windows系统的电
 该版本利用zbus的发布订阅功能。[【少帮主/zbus】](http://git.oschina.net/rushmore/zbus)
 ##  部署指南
 -------
-###Part-One:danmaku-java-server
+###Part-One:danmaku-java-server(zbus服务端)
 * 在pom.xml所在文件夹下使用maven进行打包，打包后的文件在target文件夹下 ： 
 ```
 mvn clean package
