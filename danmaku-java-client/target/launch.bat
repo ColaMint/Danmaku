@@ -1,4 +1,0 @@
-SET PROJECT_HOME=.
-SET MAIN_CLASS=com.danmaku.client.DanmakuClient
-SET LIB_OPTS=%PROJECT_HOME%;%PROJECT_HOME%/lib;%PROJECT_HOME%/lib/*;%PROJECT_HOME%/classes;
-"%JAVA_HOME%\bin\java" -cp %LIB_OPTS% %MAIN_CLASS%
