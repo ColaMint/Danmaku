@@ -18,7 +18,7 @@ server.token=danmaku    #在zbus进行管理员操作的口令（例如：创建
 ```
 * 运行target下的launch.bat或launch.sh即可运行服务端
 
-###Part-Two:danmaku-java-client
+###Part-Two:danmaku-java-client(windows客户端)
 * 在pom.xml所在文件夹下使用maven进行打包，打包后的文件在target文件夹下 ： 
 ```
 mvn clean package
