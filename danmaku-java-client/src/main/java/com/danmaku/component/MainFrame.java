@@ -27,16 +27,18 @@ public class MainFrame extends JFrame {
 	/* Frame Params */
 	private final String DANMAKU_FRAME_TITLE = "Danmaku";
 	private final int DANMAKU_FRAME_WIDTH = 250;
-	private final int DANMAKU_FRAME_HEIGHT = 270;
+	private final int DANMAKU_FRAME_HEIGHT = 320;
 
 	/* Frame Component */
 	private JLabel labelHost;
 	private JLabel labelPort;
 	private JLabel labelMq;
+	private JLabel labelToken;
 	private JLabel labelTopic;
 	private JTextField textHost;
 	private JTextField textPort;
 	private JTextField textMq;
+	private JTextField textToken;
 	private JTextField textTopic;
 	private JButton btnStart;
 	private JButton btnPause;
@@ -134,15 +136,22 @@ public class MainFrame extends JFrame {
 
 		/* init labelMq */
 		labelMq = new JLabel();
-		labelMq.setText("MQ:");
+		labelMq.setText("Mq:");
 		labelMq.setBounds(10, 110, 75, 25);
 		labelMq.setHorizontalAlignment(SwingConstants.RIGHT);
 		this.add(labelMq);
 
+		/* init labelToken */
+		labelToken = new JLabel();
+		labelToken.setText("Token:");
+		labelToken.setBounds(10, 155, 75, 25);
+		labelToken.setHorizontalAlignment(SwingConstants.RIGHT);
+		this.add(labelToken);
+
 		/* init labelTopic */
 		labelTopic = new JLabel();
 		labelTopic.setText("Topic:");
-		labelTopic.setBounds(10, 155, 75, 25);
+		labelTopic.setBounds(10, 200, 75, 25);
 		labelTopic.setHorizontalAlignment(SwingConstants.RIGHT);
 		this.add(labelTopic);
 
@@ -170,10 +179,18 @@ public class MainFrame extends JFrame {
 				new EtchedBorder(), new EmptyBorder(0, 5, 0, 5)));
 		this.add(textMq);
 
+		/* init textToken */
+		textToken = new JTextField();
+		textToken.setText(conf.getProperty("server.token", "" + DanmakuZbus.TOKEN));
+		textToken.setBounds(100, 155, 120, 25);
+		textToken.setBorder(BorderFactory.createCompoundBorder(
+				new EtchedBorder(), new EmptyBorder(0, 5, 0, 5)));
+		this.add(textToken);
+
 		/* init textTopic */
 		textTopic = new JTextField();
 		textTopic.setText(conf.getProperty("server.topic", DanmakuZbus.TOPIC));
-		textTopic.setBounds(100, 155, 120, 25);
+		textTopic.setBounds(100, 200, 120, 25);
 		textTopic.setBorder(BorderFactory.createCompoundBorder(
 				new EtchedBorder(), new EmptyBorder(0, 5, 0, 5)));
 		this.add(textTopic);
@@ -181,7 +198,7 @@ public class MainFrame extends JFrame {
 		/* init btnStart */
 		btnStart = new JButton();
 		btnStart.setText("Start");
-		btnStart.setBounds(15, 200, 70, 25);
+		btnStart.setBounds(15, 245, 70, 25);
 		this.add(btnStart);
 		btnStart.addMouseListener(new MouseAdapter() {
 			@Override
@@ -195,7 +212,7 @@ public class MainFrame extends JFrame {
 		/* init btnPause */
 		btnPause = new JButton();
 		btnPause.setText("Pause");
-		btnPause.setBounds(90, 200, 70, 25);
+		btnPause.setBounds(90, 245, 70, 25);
 		this.add(btnPause);
 		btnPause.addMouseListener(new MouseAdapter() {
 			@Override
@@ -209,7 +226,7 @@ public class MainFrame extends JFrame {
 		/* init btnStop */
 		btnStop = new JButton();
 		btnStop.setText("Stop");
-		btnStop.setBounds(165, 200, 70, 25);
+		btnStop.setBounds(165, 245, 70, 25);
 		this.add(btnStop);
 		btnStop.addMouseListener(new MouseAdapter() {
 			@Override
@@ -226,9 +243,10 @@ public class MainFrame extends JFrame {
 			String host = textHost.getText().trim();
 			String port = textPort.getText().trim();
 			String mq = textMq.getText().trim();
+			String token = textToken.getText().trim();
 			String topic = textTopic.getText().trim();
 
-			DanmakuZbus.setZbusConfig(host, port, mq, topic);
+			DanmakuZbus.setZbusConfig(host, port, mq, token, topic);
 		}
 
 		try {
