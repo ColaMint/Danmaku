@@ -4,6 +4,9 @@
 Danmaku是一款弹幕软件，可用于举办活动时，在Windows系统的电脑屏幕上显示弹幕，让参加活动的人员发送弹幕。
 
 该版本利用zbus的发布订阅功能。[【少帮主/zbus】](http://git.oschina.net/rushmore/zbus)
+
+一个zbus服务端可以供多个客户端同时使用，只要订阅的主题不同或使用的消息队列不同就可以独立开来。
+
 ##  部署指南
 -------
 ###Part-One:danmaku-java-server(zbus服务端)
