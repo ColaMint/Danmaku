@@ -68,6 +68,7 @@ server.topic=danmaku    #订阅的主题
             php composer.phar install
 
 *   修改微信公众号参数：/danmaku-php-server/weixin/wechat.php
+        
         $options        = array(    'token'             => 'danmaku',
                                     'appid'             => 'xxx',
                                     'appsecret'         => 'xxx');
