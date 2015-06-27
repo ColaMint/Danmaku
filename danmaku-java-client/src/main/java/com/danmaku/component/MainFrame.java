@@ -14,7 +14,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import com.danmaku.conf.ConfManager;
-import com.danmaku.conf.ConfManager;
 import com.danmaku.state.StateManager;
 import com.danmaku.state.StateManager.OnStateChangedListener;
 import com.danmaku.state.StateManager.State;
