@@ -14,7 +14,7 @@ mvn clean package
 * 修改服务器参数的配置文件: target/server.properties
 ```
 server.port=15555       #zbus端口
-server.token=danmaku    #在zbus进行管理员操作的口令（例如创建队列）
+server.token=danmaku    #在zbus进行管理员操作的口令（例如：创建队列）
 ```
 * 运行target下的launch.bat或launch.sh即可运行服务端
 
@@ -28,7 +28,7 @@ mvn clean package
 server.host=127.0.0.1   #zbus服务器IP
 server.port=15555       #zbus服务器端口
 server.mq=danmaku       #队列名
-server.token=danmaku    #访问该队列的口令
+server.token=danmaku    #访问队列的口令
 server.topic=danmaku    #订阅的主题
 ```
 * 运行target下的launch.bat或launch.sh即可运行客户端
@@ -37,7 +37,7 @@ server.topic=danmaku    #订阅的主题
 
 *   创建队列
 
-        URL                  :  http://host:port
+        URL                  :  http://[zbus服务器IP]:[zbus服务器端口]
         Method               :  POST
         Extended headers     ： cmd:admin
                                 sub_cmd:create_mq
@@ -46,7 +46,7 @@ server.topic=danmaku    #订阅的主题
         
 *   添加弹幕 
 
-        URL                  :  http://host:port
+        URL                  :  http://[zbus服务器IP]:[zbus服务器端口]
         Method               :  POST
         Extended headers     ： cmd:produce
                                 mq:[队列名]
