@@ -32,7 +32,7 @@
 			return $this->sendMessage($headers, $body);
 		}
 
-		public function sendDanmaku($mq, $mq_access_token, $topic, $userid, $username, $content, $font_size = 40, $color_r = 5, $color_g = 0, $color_b = 0, $speed = 5){
+		public function sendDanmaku($mq, $mq_access_token, $topic, $userid, $username, $content, $font_size = 40, $color_r = 0, $color_g = 0, $color_b = 0, $speed = 5){
 			
 			$headers = array("cmd:produce", "mq:{$mq}", "token:{$mq_access_token}", "topic:{$topic}");
 			
