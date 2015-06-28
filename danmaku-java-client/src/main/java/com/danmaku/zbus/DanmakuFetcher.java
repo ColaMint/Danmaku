@@ -28,9 +28,10 @@ public class DanmakuFetcher extends MqAdmin implements Closeable {
 
 	private ExecutorService pool = Executors.newSingleThreadExecutor();
 
-	public DanmakuFetcher(MqConfig config) {
+	public DanmakuFetcher(MqConfig config) throws IOException {
 		super(config);
 		this.topic = config.getTopic();
+		this.client = broker.getClient(myClientHint());
 	}
 
 	public void setTopic(String topic) {
@@ -44,10 +45,6 @@ public class DanmakuFetcher extends MqAdmin implements Closeable {
 	public void startFetch() throws IOException {
 		if (!isFetching) {
 			isFetching = true;
-
-			if (this.client == null) {
-				this.client = broker.getClient(myClientHint());
-			}
 
 			pool.submit(new Runnable() {
 
@@ -74,20 +71,26 @@ public class DanmakuFetcher extends MqAdmin implements Closeable {
 			subMessage.setTopic(topic);
 		}
 
+		if (this.client == null)
+			return null;
+
 		Message danmakuMsg = this.client.invokeSync(subMessage, 10000);
 		return danmakuMsg;
 	}
 
 	private void loop() {
-		Message danmakuMsg;
+		Message danmakuMsg = null;
 		try {
 			danmakuMsg = subTopicMessage();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			stopFetch();
-			notifyError();
-			return;
+			// 发生在获取时的异常才算数，发生在非获取时可能是由于client被关闭时还在等待订阅的消息所引起的，属于正常情况
+			if (isFetching) {
+				e.printStackTrace();
+				stopFetch();
+				notifyError();
+				return;
+			}
 		}
 		if (null == danmakuMsg) {
 			// 超时重新获取
@@ -139,12 +142,24 @@ public class DanmakuFetcher extends MqAdmin implements Closeable {
 		}
 	}
 
-	@Override
-	public void close() throws IOException {
-		// TODO Auto-generated method stub
-		if (this.client != null) {
-			this.client.close();
+	private void closeClient() {
+		try {
+			if (this.client != null) {
+				this.client.close();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
 			this.client = null;
 		}
+	}
+
+	@Override
+	public void close() {
+		// TODO Auto-generated method stub
+		stopFetch();
+		closeClient();
+		pool.shutdown();
 	}
 }

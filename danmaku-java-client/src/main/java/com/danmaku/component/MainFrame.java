@@ -14,9 +14,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import com.danmaku.conf.ConfManager;
+import com.danmaku.engine.Engine;
+import com.danmaku.state.OnStateChangedListener;
+import com.danmaku.state.State;
 import com.danmaku.state.StateManager;
-import com.danmaku.state.StateManager.OnStateChangedListener;
-import com.danmaku.state.StateManager.State;
 import com.danmaku.zbus.DanmakuZbus;
 
 public class MainFrame extends JFrame {
@@ -43,13 +44,15 @@ public class MainFrame extends JFrame {
 	private JButton btnPause;
 	private JButton btnStop;
 
-	/* Manager */
-	private StateManager stateManager;
+	/* Engine */
+	private Engine engine;
 
 	/* DanmakuBoard */
 	private DanmakuBoard danmakuBoard;
 
-	public MainFrame() {
+	public MainFrame(Engine engine) {
+		this.engine = engine;
+
 		initFrameParams();
 		initStateManager();
 		initDanmakuBoard();
@@ -69,8 +72,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void initStateManager() {
-		stateManager = new StateManager();
-		stateManager.addOnStateChangedListener(new OnStateChangedListener() {
+		engine.addOnStateChangedListener(new OnStateChangedListener() {
 
 			@Override
 			public void OnStateChanged(State oldState, State newState) {
@@ -107,11 +109,11 @@ public class MainFrame extends JFrame {
 			}
 
 		});
-		stateManager.setState(State.STATE_STOP);
+		engine.automicChangeState(State.STATE_STOP);
 	}
 
 	private void initDanmakuBoard() {
-		danmakuBoard = new DanmakuBoard(stateManager);
+		danmakuBoard = new DanmakuBoard(engine);
 		danmakuBoard.show();
 		danmakuBoard.toFront();
 	}
@@ -238,7 +240,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void onStartBtnClicked() {
-		if (stateManager.checkState(State.STATE_STOP)) {
+		if (engine.checkState(State.STATE_STOP)) {
 			String host = textHost.getText().trim();
 			String port = textPort.getText().trim();
 			String mq = textMq.getText().trim();
@@ -248,36 +250,15 @@ public class MainFrame extends JFrame {
 			DanmakuZbus.setZbusConfig(host, port, mq, token, topic);
 		}
 
-		try {
-			stateManager.lock();
-			stateManager.setState(State.STATE_RUNNING);
-			stateManager.unLock();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		engine.automicChangeState(State.STATE_RUNNING);
 	}
 
 	private void onPauseBtnClicked() {
-		try {
-			stateManager.lock();
-			stateManager.setState(State.STATE_PAUSE);
-			stateManager.unLock();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		engine.automicChangeState(State.STATE_PAUSE);
 	}
 
 	private void onStopBtnClicked() {
-		try {
-			stateManager.lock();
-			stateManager.setState(State.STATE_STOP);
-			stateManager.unLock();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		engine.automicChangeState(State.STATE_STOP);
 	}
 
 	private void setEnableAllTextField(boolean enable) {

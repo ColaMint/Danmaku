@@ -5,13 +5,9 @@ import java.util.List;
 
 import com.danmaku.common.Lockable;
 
-public class StateManager extends Lockable {
+public class StateManager extends Lockable implements StateManagerInterface {
 
 	private List<OnStateChangedListener> listeners;
-
-	public static enum State {
-		STATE_STOP, STATE_RUNNING, STATE_PAUSE
-	}
 
 	private State state;
 
@@ -20,24 +16,38 @@ public class StateManager extends Lockable {
 		this.state = State.STATE_STOP;
 	}
 
+	@Override
 	public State getState() {
 		return this.state;
 	}
 
+	@Override
 	public boolean checkState(State targetState) {
 		return this.state == targetState;
 	}
 
-	public void setState(State newState) {
+	@Override
+	public void changeState(State newState) {
+		// TODO Auto-generated method stub
 		State oldState = this.state;
 		this.state = newState;
 		notifyListeners(oldState, newState);
 	}
 
+	@Override
+	public void automicChangeState(State newState) {
+		// TODO Auto-generated method stub
+		this.lock();
+		this.changeState(newState);
+		this.unLock();
+	}
+
+	@Override
 	public void addOnStateChangedListener(OnStateChangedListener l) {
 		listeners.add(l);
 	}
 
+	@Override
 	public void removeOnStateChangedListener(OnStateChangedListener l) {
 		listeners.remove(l);
 	}
@@ -46,13 +56,5 @@ public class StateManager extends Lockable {
 		for (OnStateChangedListener l : listeners) {
 			l.OnStateChanged(oldState, newState);
 		}
-	}
-
-	public interface OnStateChangedListener {
-		/*
-		 * 由于StateManager是可以被锁住的
-		 * 所以尽量不要在这个函数中调用StateManager::lock()，避免造成死锁
-		 */
-		public void OnStateChanged(State oldState, State newState);
 	}
 }

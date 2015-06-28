@@ -6,18 +6,18 @@ import java.util.Map;
 import java.util.Set;
 
 import com.danmaku.common.Lockable;
+import com.danmaku.state.OnStateChangedListener;
+import com.danmaku.state.State;
 import com.danmaku.state.StateManager;
-import com.danmaku.state.StateManager.OnStateChangedListener;
-import com.danmaku.state.StateManager.State;
 
 public class UserSet extends Lockable implements OnStateChangedListener {
 
 	private Map<String, UserModel> userMap = new HashMap<String, UserModel>();
-	private StateManager stateMnager;
+	private StateManager stateManager;
 
-	public UserSet(StateManager stateMnager) {
-		this.stateMnager = stateMnager;
-		this.stateMnager.addOnStateChangedListener(this);
+	public UserSet(StateManager stateManager) {
+		this.stateManager = stateManager;
+		this.stateManager.addOnStateChangedListener(this);
 	}
 
 	public boolean add(String userid, String username) {
@@ -104,16 +104,10 @@ public class UserSet extends Lockable implements OnStateChangedListener {
 	@Override
 	public void OnStateChanged(State oldState, State newState) {
 		// TODO Auto-generated method stub
-		if (stateMnager.checkState(State.STATE_STOP)) {
-			try {
-				this.lock();
-				this.removeAll();
-				this.unLock();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+		if (stateManager.checkState(State.STATE_STOP)) {
+			this.lock();
+			this.removeAll();
+			this.unLock();
 		}
 	}
 }

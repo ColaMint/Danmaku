@@ -5,23 +5,24 @@ import java.util.List;
 import java.util.Random;
 
 import com.danmaku.common.Lockable;
+import com.danmaku.state.OnStateChangedListener;
+import com.danmaku.state.State;
 import com.danmaku.state.StateManager;
-import com.danmaku.state.StateManager.OnStateChangedListener;
-import com.danmaku.state.StateManager.State;
+import com.danmaku.util.ScreenUtil;
 
 public class DanmakuSet extends Lockable implements OnStateChangedListener {
 
-	private StateManager stateMnager;
+	private StateManager stateManager;
 	private List<DanmakuModel> danmakuList = new ArrayList<DanmakuModel>();
 	private Random random = new Random();
 
 	private int boardWidth, boardHeight;
 
-	public DanmakuSet(StateManager stateMnager, int boardWidth, int boardHeight) {
-		this.stateMnager = stateMnager;
-		this.boardWidth = boardWidth;
-		this.boardHeight = boardHeight;
-		this.stateMnager.addOnStateChangedListener(this);
+	public DanmakuSet(StateManager stateManager) {
+		this.stateManager = stateManager;
+		this.boardWidth = ScreenUtil.getScreenWidth();
+		this.boardHeight = ScreenUtil.getscreenHeightWitoutTaskbar();
+		this.stateManager.addOnStateChangedListener(this);
 	}
 
 	public void add(DanmakuModel danmaku) {
@@ -52,16 +53,10 @@ public class DanmakuSet extends Lockable implements OnStateChangedListener {
 	@Override
 	public void OnStateChanged(State oldState, State newState) {
 		// TODO Auto-generated method stub
-		if (stateMnager.checkState(State.STATE_STOP)) {
-			try {
-				this.lock();
-				this.removeAll();
-				this.unLock();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+		if (stateManager.checkState(State.STATE_STOP)) {
+			this.lock();
+			this.removeAll();
+			this.unLock();
 		}
 	}
 

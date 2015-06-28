@@ -9,13 +9,13 @@ import org.json.JSONException;
 import com.danmaku.model.DanmakuModel;
 import com.danmaku.model.DanmakuSet;
 import com.danmaku.model.UserSet;
+import com.danmaku.state.OnStateChangedListener;
 import com.danmaku.state.StateManager;
-import com.danmaku.state.StateManager.OnStateChangedListener;
 import com.danmaku.zbus.DanmakuFetcher;
 import com.danmaku.zbus.DanmakuFetcher.OnFetchListener;
 import com.danmaku.zbus.DanmakuZbus;
 
-public class FetchThread extends BaseThread implements OnStateChangedListener, OnFetchListener {
+public class Collector extends StateBlockedThread implements OnStateChangedListener, OnFetchListener {
 
 	private DanmakuSet danmakuSet;
 	private UserSet userSet;
@@ -26,9 +26,8 @@ public class FetchThread extends BaseThread implements OnStateChangedListener, O
 	private DanmakuFetcher fetcher;
 	private boolean acceptDanmaku = false;
 
-	public FetchThread(StateManager stateManager, DanmakuSet danmakuSet, UserSet userSet) {
+	public Collector(StateManager stateManager, DanmakuSet danmakuSet, UserSet userSet) {
 		super(stateManager);
-		this.stateManager = stateManager;
 		this.danmakuSet = danmakuSet;
 		this.userSet = userSet;
 
@@ -36,19 +35,19 @@ public class FetchThread extends BaseThread implements OnStateChangedListener, O
 	}
 
 	private void registerStateListener() {
-		this.stateManager.addOnStateChangedListener(new OnStateChangedListener() {
+		stateManager.addOnStateChangedListener(new OnStateChangedListener() {
 
 			@Override
-			public void OnStateChanged(com.danmaku.state.StateManager.State oldState,
-					com.danmaku.state.StateManager.State newState) {
+			public void OnStateChanged(com.danmaku.state.State oldState,
+					com.danmaku.state.State newState) {
 				// TODO Auto-generated method stub
 				switch (newState) {
 				case STATE_RUNNING: {
 					acceptDanmaku = true;
 					if (fetcher == null) {
 						try {
-							fetcher = DanmakuZbus.createFetcher(stateManager);
-							fetcher.addOnFetchListener(FetchThread.this);
+							fetcher = DanmakuZbus.createFetcher();
+							fetcher.addOnFetchListener(Collector.this);
 							fetcher.startFetch();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
@@ -56,7 +55,7 @@ public class FetchThread extends BaseThread implements OnStateChangedListener, O
 						}
 
 						if (fetcher == null) {
-							stateManager.setState(StateManager.State.STATE_STOP);
+							stateManager.changeState(com.danmaku.state.State.STATE_STOP);
 						}
 					}
 				}
@@ -67,13 +66,7 @@ public class FetchThread extends BaseThread implements OnStateChangedListener, O
 					break;
 				case STATE_STOP: {
 					if (fetcher != null) {
-						try {
-							fetcher.stopFetch();
-							fetcher.close();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						fetcher.close();
 						fetcher = null;
 					}
 					acceptDanmaku = false;
@@ -134,13 +127,6 @@ public class FetchThread extends BaseThread implements OnStateChangedListener, O
 	@Override
 	public void onError() {
 		// TODO Auto-generated method stub
-		try {
-			stateManager.lock();
-			stateManager.setState(StateManager.State.STATE_STOP);
-			stateManager.unLock();
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		stateManager.automicChangeState(com.danmaku.state.State.STATE_STOP);
 	}
 }

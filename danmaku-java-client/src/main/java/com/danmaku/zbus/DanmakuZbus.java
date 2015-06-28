@@ -10,8 +10,6 @@ import org.zstacks.zbus.client.broker.SingleBroker;
 import org.zstacks.zbus.client.broker.SingleBrokerConfig;
 import org.zstacks.zbus.protocol.MessageMode;
 
-import com.danmaku.state.StateManager;
-
 public class DanmakuZbus {
 	private final static Logger logger = LoggerFactory.getLogger(DanmakuZbus.class);
 
@@ -35,7 +33,7 @@ public class DanmakuZbus {
 		logger.info("TOPIC : {}", DanmakuZbus.TOPIC);
 	}
 
-	public static DanmakuFetcher createFetcher(StateManager stateManager) throws IOException {
+	public static DanmakuFetcher createFetcher() throws IOException {
 		SingleBrokerConfig brokerConfig = new SingleBrokerConfig();
 		brokerConfig.setBrokerAddress(DanmakuZbus.HOST + ":" + DanmakuZbus.PORT);
 		Broker broker = new SingleBroker(brokerConfig);
